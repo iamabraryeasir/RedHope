@@ -29,10 +29,10 @@ const router = Router();
 router.get('/', (req: Request, res: Response) => {
     sendResponse(res, {
         statusCode: httpCodes.OK,
-        message: 'Welcome to Passionaa API V1',
+        message: 'Welcome to RedHope API V1',
         data: {
             version: '1.0.0',
-            docs: 'https://github.com/iamabraryeasir/passionaa',
+            docs: 'https://github.com/iamabraryeasir/RedHope',
             timestamp: new Date().toISOString(),
         },
     });
