@@ -12,6 +12,8 @@ import sendResponse from '@/utils/sendResponse';
 /**
  * Routers
  */
+import { UserRouter } from '@/modules/user/user.routes';
+import { AuthRouter } from '@/modules/auth/auth.routes';
 
 /**
  * Types
@@ -41,7 +43,10 @@ router.get('/', (req: Request, res: Response) => {
 /**
  * Routes list
  */
-const moduleRoutes: IModuleRoutes[] = [];
+const moduleRoutes: IModuleRoutes[] = [
+    { path: '/users', route: UserRouter },
+    { path: '/auth', route: AuthRouter },
+];
 
 /**
  * Register Routes
