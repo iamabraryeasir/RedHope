@@ -61,6 +61,8 @@ const userSchema = new Schema<IUser>(
             required: true,
         },
         isVerified: { type: Boolean, default: false, required: true },
+        isBlocked: { type: Boolean, default: false, required: true },
+        isDeleted: { type: Boolean, default: false, required: true },
     },
     {
         timestamps: true,

@@ -59,4 +59,6 @@ export interface IUser extends Document {
     }[];
     availabilityStatus: AVAILABLE_STATUS;
     isVerified: boolean;
+    isDeleted: boolean;
+    isBlocked: boolean;
 }

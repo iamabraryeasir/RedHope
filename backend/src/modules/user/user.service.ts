@@ -41,6 +41,19 @@ const registerUser = async (payload: Partial<IUser>) => {
 };
 
 /**
+ * Get User By Id
+ */
+const getMe = async (userId: string) => {
+    const user = await User.findById(userId).select(
+        '-password -isBlocked -isDeleted',
+    );
+    if (!user) {
+        throw new AppError(httpCodes.NOT_FOUND, 'User not found');
+    }
+    return user?.toObject();
+};
+
+/**
  * Export Service
  */
-export const UserService = { registerUser };
+export const UserService = { registerUser, getMe };

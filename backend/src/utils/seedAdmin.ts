@@ -43,6 +43,9 @@ export const seedAdmin = async () => {
             district: 'Chittagong',
             city: 'Khulshi',
             thana: 'Khulshi',
+            isVerified: true,
+            isBlocked: false,
+            isDeleted: false,
         });
 
         console.log('Default Admin created successfully');
