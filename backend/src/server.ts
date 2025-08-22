@@ -4,7 +4,8 @@
 import app from '@/app';
 import config, { NODE_ENV } from '@/config';
 import { connectToDatabase, disconnectFromDatabase } from '@/lib/mongoose';
-import { seedAdmin } from './utils/seedAdmin';
+import { seedAdmin } from '@/utils/seedAdmin';
+import { connectToRedis } from '@/config/redis.config';
 
 /**
  * Async IIFE for starting the express server.
@@ -16,6 +17,8 @@ import { seedAdmin } from './utils/seedAdmin';
 (async () => {
     try {
         await connectToDatabase();
+
+        await connectToRedis();
 
         app.listen(config.PORT, () => {
             console.log(`Server running at port ${config.PORT}`);

@@ -32,6 +32,19 @@ interface IConfig {
         REFRESH_EXPIRE: string;
     };
     BCRYPT_SALT_ROUND: number;
+    EMAIL_SENDER: {
+        SMTP_HOST: string;
+        SMTP_PORT: number;
+        SMTP_USER: string;
+        SMTP_PASS: string;
+        SMTP_FROM: string;
+    };
+    REDIS: {
+        USERNAME: string;
+        PASSWORD: string;
+        HOST: string;
+        PORT: string;
+    };
 }
 
 /**
@@ -53,6 +66,15 @@ const loadConfigVariable = (): IConfig => {
         'JWT_REFRESH_SECRET',
         'JWT_REFRESH_EXPIRE',
         'BCRYPT_SALT_ROUND',
+        'SMTP_HOST',
+        'SMTP_PORT',
+        'SMTP_USER',
+        'SMTP_PASS',
+        'SMTP_FROM',
+        'REDIS_USERNAME',
+        'REDIS_PASSWORD',
+        'REDIS_HOST',
+        'REDIS_PORT',
     ];
 
     // throw error if any required env variable is not found
@@ -86,6 +108,19 @@ const loadConfigVariable = (): IConfig => {
             REFRESH_EXPIRE: process.env.JWT_REFRESH_EXPIRE as string,
         },
         BCRYPT_SALT_ROUND: Number(process.env.BCRYPT_SALT_ROUND),
+        REDIS: {
+            USERNAME: process.env.REDIS_USERNAME as string,
+            PASSWORD: process.env.REDIS_PASSWORD as string,
+            HOST: process.env.REDIS_HOST as string,
+            PORT: process.env.REDIS_PORT as string,
+        },
+        EMAIL_SENDER: {
+            SMTP_USER: process.env.SMTP_USER as string,
+            SMTP_PASS: process.env.SMTP_PASS as string,
+            SMTP_PORT: Number(process.env.SMTP_PORT),
+            SMTP_HOST: process.env.SMTP_HOST as string,
+            SMTP_FROM: process.env.SMTP_FROM as string,
+        },
     };
 };
 
