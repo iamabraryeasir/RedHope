@@ -7,10 +7,12 @@ import bcrypt from 'bcryptjs';
 /**
  * Local Modules
  */
-import { IUser } from '@/modules/user/user.interface';
+import { IUser, ROLE } from '@/modules/user/user.interface';
 import { AppError } from '@/errorHelpers/AppError';
 import { User } from '@/modules/user/user.model';
 import config from '@/config';
+import { QueryBuilder } from '@/utils/QueryBuilder';
+import { userSearchableFields } from './user.constant';
 
 /**
  * Register User
@@ -54,6 +56,33 @@ const getMe = async (userId: string) => {
 };
 
 /**
+ * Get All Donors
+ */
+const getAllDonors = async (query: Record<string, string>) => {
+    const queryBuilder = new QueryBuilder(
+        User.find({ role: ROLE.DONOR }),
+        query,
+    );
+
+    const usersData = queryBuilder
+        .filter()
+        .search(userSearchableFields)
+        .sort()
+        .fields('', ['password', 'phoneNumber', 'isBlocked', 'isDeleted'])
+        .paginate();
+
+    const [data, meta] = await Promise.all([
+        usersData.build(),
+        queryBuilder.getMeta(),
+    ]);
+
+    return {
+        data,
+        meta,
+    };
+};
+
+/**
  * Export Service
  */
-export const UserService = { registerUser, getMe };
+export const UserService = { registerUser, getMe, getAllDonors };

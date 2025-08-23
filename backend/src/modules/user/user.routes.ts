@@ -22,4 +22,6 @@ router.post(
     UserController.registerUser,
 );
 
+router.get('/', checkAuth(...Object.values(ROLE)), UserController.getAllDonors);
+
 export const UserRouter = router;

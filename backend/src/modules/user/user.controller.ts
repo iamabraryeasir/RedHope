@@ -48,6 +48,24 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
 });
 
 /**
+ * Get All Users/Donors
+ */
+const getAllDonors = catchAsync(async (req: Request, res: Response) => {
+    const query = req.query;
+
+    const allDonors = await UserService.getAllDonors(
+        query as Record<string, string>,
+    );
+
+    sendResponse(res, {
+        statusCode: httpCodes.OK,
+        message: 'User retrieved successfully',
+        data: allDonors.data,
+        meta: allDonors.meta,
+    });
+});
+
+/**
  * Controller Export
  */
-export const UserController = { registerUser, getMe };
+export const UserController = { registerUser, getMe, getAllDonors };
