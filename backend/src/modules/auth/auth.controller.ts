@@ -70,6 +70,29 @@ const getNewAccessToken = catchAsync(async (req: Request, res: Response) => {
 });
 
 /**
+ * Log Out User
+ */
+const logOutUser = catchAsync(async (req: Request, res: Response) => {
+    res.clearCookie('accessToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+    });
+
+    res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+    });
+
+    sendResponse(res, {
+        statusCode: httpCodes.OK,
+        message: 'User logout successful',
+        data: null,
+    });
+});
+
+/**
  * Export Controller
  */
-export const AuthController = { loginUser, getNewAccessToken };
+export const AuthController = { loginUser, getNewAccessToken, logOutUser };

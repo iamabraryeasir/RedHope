@@ -23,6 +23,8 @@ router.post(
 
 router.post('/refresh-token', AuthController.getNewAccessToken);
 
+router.post('/logout', AuthController.logOutUser);
+
 /**
  * Export Router
  */
