@@ -27,6 +27,13 @@ import { globalErrorHandler } from './middlewares/globalErrorHandler.middleware'
 const app = express();
 
 /**
+ * Trust Proxy
+ */
+if (config.NODE_ENV === NODE_ENV.PRODUCTION) {
+    app.set('trust proxy', true);
+}
+
+/**
  * CORS Middleware Apply
  */
 const corsOptions: CorsOptions = {

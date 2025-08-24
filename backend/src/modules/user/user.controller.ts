@@ -66,6 +66,33 @@ const getAllDonors = catchAsync(async (req: Request, res: Response) => {
 });
 
 /**
+ * Get User Phone Number
+ */
+const getUserPhoneNumber = catchAsync(async (req: Request, res: Response) => {
+    const requesterId = req?.user?.userId;
+    const donorId = req.params.id;
+    const ip =
+        req.ip === '::1' ? '127.0.0.1' : req?.ip?.replace(/^::ffff:/, '');
+
+    const userPhoneNumber = await UserService.getUserPhoneNumber(
+        donorId,
+        requesterId,
+        ip!,
+    );
+
+    sendResponse(res, {
+        statusCode: httpCodes.OK,
+        message: 'User phone number retrieved successfully',
+        data: userPhoneNumber,
+    });
+});
+
+/**
  * Controller Export
  */
-export const UserController = { registerUser, getMe, getAllDonors };
+export const UserController = {
+    registerUser,
+    getMe,
+    getAllDonors,
+    getUserPhoneNumber,
+};
