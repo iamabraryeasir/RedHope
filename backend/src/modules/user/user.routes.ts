@@ -32,4 +32,10 @@ router.get(
     UserController.getUserPhoneNumber,
 );
 
+router.get(
+    '/:id',
+    checkAuth(...Object.values(ROLE)),
+    UserController.getSingleUser,
+);
+
 export const UserRouter = router;

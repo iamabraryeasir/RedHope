@@ -110,6 +110,21 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 /**
+ * Get Single User
+ */
+const getSingleUser = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.params.id;
+
+    const user = await UserService.getSingleUser(userId);
+
+    sendResponse(res, {
+        statusCode: httpCodes.OK,
+        message: 'User retrieved successfully',
+        data: user,
+    });
+});
+
+/**
  * Controller Export
  */
 export const UserController = {
@@ -118,4 +133,5 @@ export const UserController = {
     getAllDonors,
     getUserPhoneNumber,
     updateUser,
+    getSingleUser,
 };

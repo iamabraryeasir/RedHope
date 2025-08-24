@@ -2,6 +2,7 @@
  * Node Modules
  */
 import httpCodes from 'http-status-codes';
+import { Types } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 /**
@@ -12,9 +13,8 @@ import { AppError } from '@/errorHelpers/AppError';
 import { User } from '@/modules/user/user.model';
 import config from '@/config';
 import { QueryBuilder } from '@/utils/QueryBuilder';
-import { userSearchableFields } from './user.constant';
-import PhoneAccessLog from '../phone-access-log/phone-access-log.model';
-import { Types } from 'mongoose';
+import { userSearchableFields } from '@/modules/user/user.constant';
+import PhoneAccessLog from '@/modules/phone-access-log/phone-access-log.model';
 
 /**
  * Register User
@@ -132,6 +132,19 @@ const updateUser = async (userId: string, payload: Partial<IUser>) => {
 };
 
 /**
+ * Get Single User
+ */
+const getSingleUser = async (userId: string) => {
+    const user = await User.findById(userId).select(
+        '-password -isBlocked -isDeleted -phoneNumber',
+    );
+    if (!user) {
+        throw new AppError(httpCodes.NOT_FOUND, 'User not found');
+    }
+    return user?.toObject();
+};
+
+/**
  * Export Service
  */
 export const UserService = {
@@ -140,4 +153,5 @@ export const UserService = {
     getAllDonors,
     getUserPhoneNumber,
     updateUser,
+    getSingleUser,
 };
