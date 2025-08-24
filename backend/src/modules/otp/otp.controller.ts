@@ -14,9 +14,11 @@ import { OtpService } from '@/modules/otp/otp.service';
  * Send Otp for Verification
  */
 const sendOtp = catchAsync(async (req: Request, res: Response) => {
-    const { email, name } = req.body;
+    let userData = req.body;
 
-    await OtpService.sendOtp(email, name);
+    userData.name = userData.name || 'Donor';
+
+    await OtpService.sendOtp(userData.email, userData.name);
 
     sendResponse(res, {
         statusCode: 200,
