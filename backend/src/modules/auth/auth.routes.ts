@@ -21,6 +21,8 @@ router.post(
     AuthController.loginUser,
 );
 
+router.post('/refresh-token', AuthController.getNewAccessToken);
+
 /**
  * Export Router
  */

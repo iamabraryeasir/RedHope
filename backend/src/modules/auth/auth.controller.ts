@@ -11,6 +11,7 @@ import { catchAsync } from '@/utils/catchAsync';
 import sendResponse from '@/utils/sendResponse';
 import { AuthService } from './auth.service';
 import { setAuthCookie } from '@/utils/setCookie';
+import { AppError } from '@/errorHelpers/AppError';
 
 /**
  * Login User
@@ -43,6 +44,32 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 /**
+ * Refresh Token
+ */
+const getNewAccessToken = catchAsync(async (req: Request, res: Response) => {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+        throw new AppError(
+            httpCodes.BAD_REQUEST,
+            'No refresh token received from cookies',
+        );
+    }
+
+    const { accessToken } = await AuthService.getNewAccessToken(refreshToken);
+
+    setAuthCookie(res, { accessToken });
+
+    sendResponse(res, {
+        statusCode: httpCodes.OK,
+        message: 'Successfully fetched the new access token',
+        data: {
+            accessToken,
+        },
+    });
+});
+
+/**
  * Export Controller
  */
-export const AuthController = { loginUser };
+export const AuthController = { loginUser, getNewAccessToken };

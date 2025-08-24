@@ -10,7 +10,10 @@ import bcrypt from 'bcryptjs';
 import { AppError } from '@/errorHelpers/AppError';
 import { IUser } from '../user/user.interface';
 import { User } from '../user/user.model';
-import { createUserTokens } from '@/utils/userTokens';
+import {
+    createNewAccessTokenWithRefreshToken,
+    createUserTokens,
+} from '@/utils/userTokens';
 
 /**
  * Login User
@@ -55,6 +58,16 @@ const loginUser = async (payload: Partial<IUser>) => {
 };
 
 /**
+ * Get New Access Token
+ */
+const getNewAccessToken = async (refreshToken: string) => {
+    const newAccessToken =
+        await createNewAccessTokenWithRefreshToken(refreshToken);
+
+    return { accessToken: newAccessToken };
+};
+
+/**
  * Export Service
  */
-export const AuthService = { loginUser };
+export const AuthService = { loginUser, getNewAccessToken };
