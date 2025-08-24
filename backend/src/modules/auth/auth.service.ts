@@ -3,6 +3,7 @@
  */
 import httpCodes from 'http-status-codes';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 /**
  * Local Modules
@@ -15,6 +16,8 @@ import {
     createUserTokens,
 } from '@/utils/userTokens';
 import config from '@/config';
+import { sendEmail } from '@/utils/sendEmail';
+import { redisClient } from '@/config/redis.config';
 
 /**
  * Login User
@@ -103,6 +106,107 @@ const changePassword = async (
 };
 
 /**
+ * Forgot Password
+ */
+const forgotPassword = async (email: string) => {
+    const isUserExists = await User.findOne({ email });
+
+    if (!isUserExists) {
+        throw new AppError(httpCodes.BAD_REQUEST, 'User does not exist');
+    }
+
+    if (isUserExists.isBlocked) {
+        throw new AppError(
+            httpCodes.BAD_REQUEST,
+            'User is blocked. Contact with the admins.',
+        );
+    }
+
+    if (isUserExists.isDeleted) {
+        throw new AppError(
+            httpCodes.BAD_REQUEST,
+            'User is deleted. Contact the admins',
+        );
+    }
+
+    if (!isUserExists.isVerified) {
+        throw new AppError(httpCodes.BAD_REQUEST, 'User is not verified');
+    }
+
+    const payload = {
+        userId: isUserExists._id,
+        email: isUserExists.email,
+        role: isUserExists.role,
+    };
+
+    const resetPasswordToken = jwt.sign(
+        payload,
+        config.JWT.RESET_PASSWORD_SECRET,
+        {
+            expiresIn: '10m',
+        },
+    );
+
+    const redisKey = `pwdreset:${email}`;
+    await redisClient.set(redisKey, resetPasswordToken, {
+        expiration: { type: 'EX', value: 10 * 60 }, // 10 minutes
+    });
+
+    const resetUILink = `${config.FRONTEND_URL}/reset-password?token=${resetPasswordToken}`;
+
+    sendEmail({
+        to: isUserExists.email,
+        subject: 'Password reset email.',
+        templateName: 'forgotPassword',
+        templateData: {
+            name: isUserExists.name,
+            resetUILink,
+        },
+    });
+};
+
+/**
+ * Reset password service logic
+ */
+const resetPassword = async (
+    passwordResetToken: string,
+    newPassword: string,
+) => {
+    let payload: any;
+    try {
+        payload = jwt.verify(
+            passwordResetToken,
+            config.JWT.RESET_PASSWORD_SECRET,
+        );
+    } catch (err) {
+        throw new AppError(httpCodes.BAD_REQUEST, 'Invalid or expired token');
+    }
+
+    // Ensure token is in Redis (single use)
+    const redisKey = `pwdreset:${payload.email}`;
+    const savedToken = await redisClient.get(redisKey);
+    if (!savedToken || savedToken !== passwordResetToken) {
+        throw new AppError(httpCodes.BAD_REQUEST, 'Invalid or expired token');
+    }
+
+    // Hash new password & update user
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    await Promise.all([
+        User.updateOne({ _id: payload.userId }, { password: hashedPassword }),
+        redisClient.del([redisKey]),
+    ]);
+
+    return { ok: true };
+};
+
+/**
  * Export Service
  */
-export const AuthService = { loginUser, getNewAccessToken, changePassword };
+export const AuthService = {
+    loginUser,
+    getNewAccessToken,
+    changePassword,
+    forgotPassword,
+    resetPassword,
+};
