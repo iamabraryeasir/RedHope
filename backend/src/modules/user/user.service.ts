@@ -118,6 +118,20 @@ const getUserPhoneNumber = async (
 };
 
 /**
+ * Update User
+ */
+const updateUser = async (userId: string, payload: Partial<IUser>) => {
+    const user = await User.findByIdAndUpdate(userId, payload, {
+        new: true,
+        runValidators: true,
+    });
+    if (!user) {
+        throw new AppError(httpCodes.NOT_FOUND, 'User not found');
+    }
+    return user.toObject();
+};
+
+/**
  * Export Service
  */
 export const UserService = {
@@ -125,4 +139,5 @@ export const UserService = {
     getMe,
     getAllDonors,
     getUserPhoneNumber,
+    updateUser,
 };

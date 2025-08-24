@@ -11,6 +11,7 @@ import { catchAsync } from '@/utils/catchAsync';
 import sendResponse from '@/utils/sendResponse';
 import { UserService } from './user.service';
 import { JwtPayload } from 'jsonwebtoken';
+import { IUser } from './user.interface';
 
 /**
  * Register User
@@ -88,6 +89,27 @@ const getUserPhoneNumber = catchAsync(async (req: Request, res: Response) => {
 });
 
 /**
+ * Update user controller
+ */
+const updateUser = catchAsync(async (req: Request, res: Response) => {
+    const userId = req?.user?.userId;
+
+    // update the user
+    const updatedNewUser = await UserService.updateUser(userId, req.body);
+
+    // remove sensitive data
+    const { password, isDeleted, isBlocked, ...rest } = updatedNewUser as IUser;
+
+    sendResponse(res, {
+        statusCode: httpCodes.CREATED,
+        message: 'User updated successfully',
+        data: {
+            ...rest,
+        },
+    });
+});
+
+/**
  * Controller Export
  */
 export const UserController = {
@@ -95,4 +117,5 @@ export const UserController = {
     getMe,
     getAllDonors,
     getUserPhoneNumber,
+    updateUser,
 };

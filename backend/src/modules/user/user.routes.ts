@@ -22,12 +22,14 @@ router.post(
     UserController.registerUser,
 );
 
+router.get('/', checkAuth(...Object.values(ROLE)), UserController.getAllDonors);
+
+router.patch('/', checkAuth(...Object.values(ROLE)), UserController.updateUser);
+
 router.get(
     '/:id/contact',
     checkAuth(...Object.values(ROLE)),
     UserController.getUserPhoneNumber,
 );
-
-router.get('/', checkAuth(...Object.values(ROLE)), UserController.getAllDonors);
 
 export const UserRouter = router;
