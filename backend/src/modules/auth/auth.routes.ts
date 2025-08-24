@@ -8,7 +8,12 @@ import { Router } from 'express';
  */
 import { AuthController } from './auth.controller';
 import { validateRequest } from '@/middlewares/validateRequest.middleware';
-import { loginZodValidator } from './auth.validator';
+import {
+    changePasswordZodValidator,
+    loginZodValidator,
+} from './auth.validator';
+import { checkAuth } from '@/middlewares/checkAuth.middleware';
+import { ROLE } from '../user/user.interface';
 
 /**
  * Routes
@@ -24,6 +29,13 @@ router.post(
 router.post('/refresh-token', AuthController.getNewAccessToken);
 
 router.post('/logout', AuthController.logOutUser);
+
+router.post(
+    '/change-password',
+    checkAuth(...Object.values(ROLE)),
+    validateRequest(changePasswordZodValidator),
+    AuthController.changePassword,
+);
 
 /**
  * Export Router

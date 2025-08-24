@@ -14,6 +14,7 @@ import {
     createNewAccessTokenWithRefreshToken,
     createUserTokens,
 } from '@/utils/userTokens';
+import config from '@/config';
 
 /**
  * Login User
@@ -68,6 +69,40 @@ const getNewAccessToken = async (refreshToken: string) => {
 };
 
 /**
+ * Reset password service logic
+ */
+const changePassword = async (
+    userId: string,
+    oldPassword: string,
+    newPassword: string,
+) => {
+    const userFromDB = await User.findById(userId);
+
+    const verifyOldPassword = await bcrypt.compare(
+        oldPassword,
+        userFromDB?.password as string,
+    );
+
+    if (!verifyOldPassword) {
+        throw new AppError(
+            httpCodes.UNAUTHORIZED,
+            "Previous password doesn't match",
+        );
+    }
+
+    const newPasswordHash = await bcrypt.hash(
+        newPassword,
+        config.BCRYPT_SALT_ROUND,
+    );
+
+    await User.findByIdAndUpdate(
+        userId,
+        { password: newPasswordHash },
+        { new: true },
+    );
+};
+
+/**
  * Export Service
  */
-export const AuthService = { loginUser, getNewAccessToken };
+export const AuthService = { loginUser, getNewAccessToken, changePassword };
