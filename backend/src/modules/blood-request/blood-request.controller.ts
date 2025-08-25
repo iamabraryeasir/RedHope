@@ -40,7 +40,21 @@ const getAllBloodRequests = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+/**
+ * Get Blood Request by ID
+ */
+const getBloodRequestById = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const bloodRequest = await BloodRequestService.getBloodRequestById(id);
+    sendResponse(res, {
+        statusCode: httpCodes.OK,
+        message: 'Blood request retrieved successfully',
+        data: bloodRequest,
+    });
+});
+
 export const BloodRequestController = {
     newBloodRequest,
     getAllBloodRequests,
+    getBloodRequestById,
 };

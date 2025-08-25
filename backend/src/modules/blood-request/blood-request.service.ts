@@ -5,8 +5,12 @@
 /**
  * Local Modules
  */
-import { IBloodRequest, REQUEST_STATUS } from './blood-request.interface';
-import { BloodRequest } from './blood-request.model';
+import {
+    IBloodRequest,
+    REQUEST_STATUS,
+} from '@/modules/blood-request/blood-request.interface';
+import { BloodRequest } from '@/modules/blood-request/blood-request.model';
+import { QueryBuilder } from '@/utils/QueryBuilder';
 
 /**
  * Create Blood Request
@@ -19,7 +23,6 @@ const createBloodRequest = async (bloodRequestData: Partial<IBloodRequest>) => {
 /**
  * Get All Blood Requests
  */
-import { QueryBuilder } from '@/utils/QueryBuilder';
 
 const getAllBloodRequests = async (query: Record<string, string> = {}) => {
     const queryBuilder = new QueryBuilder(
@@ -37,7 +40,21 @@ const getAllBloodRequests = async (query: Record<string, string> = {}) => {
     return { data, meta };
 };
 
+/**
+ * Get Blood Request by ID
+ */
+const getBloodRequestById = async (id: string) => {
+    const bloodRequest = await BloodRequest.findById(id)
+        .populate('createdBy', 'name')
+        .lean();
+    return bloodRequest;
+};
+
+/**
+ * Blood Request Service Export
+ */
 export const BloodRequestService = {
     createBloodRequest,
     getAllBloodRequests,
+    getBloodRequestById,
 };

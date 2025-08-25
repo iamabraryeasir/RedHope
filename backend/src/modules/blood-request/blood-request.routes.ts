@@ -30,4 +30,10 @@ router.get(
     BloodRequestController.getAllBloodRequests,
 );
 
+router.get(
+    '/:id',
+    checkAuth(...Object.values(ROLE)),
+    BloodRequestController.getBloodRequestById,
+);
+
 export const BloodRequestRouter = router;
