@@ -5,7 +5,7 @@
 /**
  * Local Modules
  */
-import { IBloodRequest } from './blood-request.interface';
+import { IBloodRequest, REQUEST_STATUS } from './blood-request.interface';
 import { BloodRequest } from './blood-request.model';
 
 /**
@@ -16,6 +16,28 @@ const createBloodRequest = async (bloodRequestData: Partial<IBloodRequest>) => {
     return newBloodRequest;
 };
 
+/**
+ * Get All Blood Requests
+ */
+import { QueryBuilder } from '@/utils/QueryBuilder';
+
+const getAllBloodRequests = async (query: Record<string, string> = {}) => {
+    const queryBuilder = new QueryBuilder(
+        BloodRequest.find({ status: REQUEST_STATUS.APPROVED }),
+        query,
+    );
+
+    const bloodRequestsData = queryBuilder.filter().sort().fields().paginate();
+
+    const [data, meta] = await Promise.all([
+        bloodRequestsData.build().populate('createdBy', 'name'),
+        queryBuilder.getMeta(),
+    ]);
+
+    return { data, meta };
+};
+
 export const BloodRequestService = {
     createBloodRequest,
+    getAllBloodRequests,
 };

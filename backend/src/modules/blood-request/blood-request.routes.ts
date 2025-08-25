@@ -24,4 +24,10 @@ router.post(
     BloodRequestController.newBloodRequest,
 );
 
+router.get(
+    '/',
+    checkAuth(...Object.values(ROLE)),
+    BloodRequestController.getAllBloodRequests,
+);
+
 export const BloodRequestRouter = router;
