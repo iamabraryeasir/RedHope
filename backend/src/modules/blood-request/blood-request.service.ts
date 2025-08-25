@@ -41,13 +41,12 @@ const getAllBloodRequests = async (query: Record<string, string> = {}) => {
 };
 
 /**
- * Get All Pending Blood Requests (Admin Only)
+ * Get All Blood Requests (Admin Only - No Status Filter)
  */
-const getAllPendingBloodRequests = async (
-    query: Record<string, string> = {},
-) => {
+const getAllBloodRequestsAdmin = async (query: Record<string, string> = {}) => {
+    // Admin can query ALL blood requests regardless of status
     const queryBuilder = new QueryBuilder(
-        BloodRequest.find({ status: REQUEST_STATUS.PENDING }),
+        BloodRequest.find(), // No status filter - admin sees everything
         query,
     );
 
@@ -56,11 +55,41 @@ const getAllPendingBloodRequests = async (
     const [data, meta] = await Promise.all([
         bloodRequestsData
             .build()
-            .populate('createdBy', 'name email phoneNumber'),
+            .populate('createdBy', 'name email phoneNumber district city')
+            .populate('matchedDonor', 'name email phoneNumber bloodGroup')
+            .populate('responders', 'name email phoneNumber bloodGroup'),
         queryBuilder.getMeta(),
     ]);
 
     return { data, meta };
+};
+
+/**
+ * Update Blood Request Status
+ */
+const updateBloodRequestStatus = async (
+    requestId: string,
+    statusData: { status: REQUEST_STATUS; note?: string },
+    userId: string,
+    userRole: string,
+) => {
+    const bloodRequest = await BloodRequest.findById(requestId);
+
+    if (!bloodRequest) {
+        throw new Error('Blood request not found');
+    }
+
+    if (userRole !== 'ADMIN' && bloodRequest.createdBy.toString() !== userId) {
+        throw new Error('You are not authorized to update this blood request');
+    }
+
+    bloodRequest.status = statusData.status;
+
+    await bloodRequest.save();
+
+    return await BloodRequest.findById(requestId)
+        .populate('createdBy', 'name email')
+        .lean();
 };
 
 /**
@@ -79,6 +108,7 @@ const getBloodRequestById = async (id: string) => {
 export const BloodRequestService = {
     createBloodRequest,
     getAllBloodRequests,
-    getAllPendingBloodRequests,
+    getAllBloodRequestsAdmin,
+    updateBloodRequestStatus,
     getBloodRequestById,
 };

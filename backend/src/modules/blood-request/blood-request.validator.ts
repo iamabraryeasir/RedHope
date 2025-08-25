@@ -65,3 +65,11 @@ export const updateBloodRequestSchema = z.object({
     expiresAt: z.coerce.date().optional(),
     status: z.nativeEnum(REQUEST_STATUS).optional(),
 });
+
+/**
+ * Update Blood Request Status Schema
+ */
+export const updateBloodRequestStatusSchema = z.object({
+    status: z.nativeEnum(REQUEST_STATUS),
+    note: z.string().trim().max(500).optional(),
+});

@@ -9,7 +9,10 @@ import { Router } from 'express';
 import { BloodRequestController } from '@/modules/blood-request/blood-request.controller';
 import { checkAuth } from '@/middlewares/checkAuth.middleware';
 import { ROLE } from '@/modules/user/user.interface';
-import { createBloodRequestSchema } from '@/modules/blood-request/blood-request.validator';
+import {
+    createBloodRequestSchema,
+    updateBloodRequestStatusSchema,
+} from '@/modules/blood-request/blood-request.validator';
 import { validateRequest } from '@/middlewares/validateRequest.middleware';
 
 /**
@@ -31,9 +34,16 @@ router.get(
 );
 
 router.get(
-    '/pending',
+    '/admin/all',
     checkAuth(ROLE.ADMIN),
-    BloodRequestController.getAllPendingBloodRequests,
+    BloodRequestController.getAllBloodRequestsAdmin,
+);
+
+router.patch(
+    '/:id/status',
+    checkAuth(...Object.values(ROLE)),
+    validateRequest(updateBloodRequestStatusSchema),
+    BloodRequestController.updateBloodRequestStatus,
 );
 
 router.get(

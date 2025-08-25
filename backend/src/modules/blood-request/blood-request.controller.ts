@@ -41,17 +41,43 @@ const getAllBloodRequests = catchAsync(async (req: Request, res: Response) => {
 });
 
 /**
- * Get All Pending Blood Requests (Admin Only)
+ * Get All Blood Requests (Admin Only - Full Access)
  */
-const getAllPendingBloodRequests = catchAsync(async (req: Request, res: Response) => {
+const getAllBloodRequestsAdmin = catchAsync(async (req: Request, res: Response) => {
     const query = req.query as Record<string, string>;
-    const pendingBloodRequests = await BloodRequestService.getAllPendingBloodRequests(query);
+    const allBloodRequests = await BloodRequestService.getAllBloodRequestsAdmin(query);
     sendResponse(res, {
         statusCode: httpCodes.OK,
-        message: 'Pending blood requests retrieved successfully',
-        data: pendingBloodRequests,
+        message: 'All blood requests retrieved successfully',
+        data: allBloodRequests,
     });
 });
+
+/**
+ * Update Blood Request Status
+ */
+const updateBloodRequestStatus = catchAsync(
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const statusData = req.body;
+        const userId = req?.user?.userId;
+        const userRole = req?.user?.role;
+
+        const updatedBloodRequest =
+            await BloodRequestService.updateBloodRequestStatus(
+                id,
+                statusData,
+                userId,
+                userRole,
+            );
+
+        sendResponse(res, {
+            statusCode: httpCodes.OK,
+            message: 'Blood request status updated successfully',
+            data: updatedBloodRequest,
+        });
+    },
+);
 
 /**
  * Get Blood Request by ID
@@ -69,6 +95,7 @@ const getBloodRequestById = catchAsync(async (req: Request, res: Response) => {
 export const BloodRequestController = {
     newBloodRequest,
     getAllBloodRequests,
-    getAllPendingBloodRequests,
+    getAllBloodRequestsAdmin,
+    updateBloodRequestStatus,
     getBloodRequestById,
 };
