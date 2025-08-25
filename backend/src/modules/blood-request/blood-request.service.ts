@@ -93,6 +93,42 @@ const updateBloodRequestStatus = async (
 };
 
 /**
+ * Reject Blood Request (Admin Only)
+ */
+const rejectBloodRequest = async (
+    requestId: string,
+    rejectionData: { reasonOfRejection: string },
+    userRole: string,
+) => {
+    // Only admins can reject blood requests
+    if (userRole !== 'ADMIN') {
+        throw new Error('Only administrators can reject blood requests');
+    }
+
+    const bloodRequest = await BloodRequest.findById(requestId);
+
+    if (!bloodRequest) {
+        throw new Error('Blood request not found');
+    }
+
+    // Check if request can be rejected (should not be already completed/expired)
+    if (bloodRequest.status === REQUEST_STATUS.COMPLETED || 
+        bloodRequest.status === REQUEST_STATUS.EXPIRED) {
+        throw new Error(`Cannot reject a ${bloodRequest.status.toLowerCase()} blood request`);
+    }
+
+    // Update status to REJECTED and add rejection reason
+    bloodRequest.status = REQUEST_STATUS.REJECTED;
+    bloodRequest.reasonOfRejection = rejectionData.reasonOfRejection;
+
+    await bloodRequest.save();
+
+    return await BloodRequest.findById(requestId)
+        .populate('createdBy', 'name email phoneNumber')
+        .lean();
+};
+
+/**
  * Get Blood Request by ID
  */
 const getBloodRequestById = async (id: string) => {
@@ -110,5 +146,6 @@ export const BloodRequestService = {
     getAllBloodRequests,
     getAllBloodRequestsAdmin,
     updateBloodRequestStatus,
+    rejectBloodRequest,
     getBloodRequestById,
 };

@@ -51,6 +51,7 @@ export interface IBloodRequest extends Document {
     expiresAt?: Date;
 
     status: REQUEST_STATUS;
+    reasonOfRejection?: string;
 
     matchedDonor?: Types.ObjectId;
     responders: Types.ObjectId[];

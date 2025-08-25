@@ -80,6 +80,27 @@ const updateBloodRequestStatus = catchAsync(
 );
 
 /**
+ * Reject Blood Request (Admin Only)
+ */
+const rejectBloodRequest = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const rejectionData = req.body;
+    const userRole = req?.user?.role;
+
+    const rejectedBloodRequest = await BloodRequestService.rejectBloodRequest(
+        id,
+        rejectionData,
+        userRole,
+    );
+
+    sendResponse(res, {
+        statusCode: httpCodes.OK,
+        message: 'Blood request rejected successfully',
+        data: rejectedBloodRequest,
+    });
+});
+
+/**
  * Get Blood Request by ID
  */
 const getBloodRequestById = catchAsync(async (req: Request, res: Response) => {
@@ -97,5 +118,6 @@ export const BloodRequestController = {
     getAllBloodRequests,
     getAllBloodRequestsAdmin,
     updateBloodRequestStatus,
+    rejectBloodRequest,
     getBloodRequestById,
 };

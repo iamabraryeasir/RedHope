@@ -12,6 +12,7 @@ import { ROLE } from '@/modules/user/user.interface';
 import {
     createBloodRequestSchema,
     updateBloodRequestStatusSchema,
+    rejectBloodRequestSchema,
 } from '@/modules/blood-request/blood-request.validator';
 import { validateRequest } from '@/middlewares/validateRequest.middleware';
 
@@ -44,6 +45,13 @@ router.patch(
     checkAuth(...Object.values(ROLE)),
     validateRequest(updateBloodRequestStatusSchema),
     BloodRequestController.updateBloodRequestStatus,
+);
+
+router.patch(
+    '/:id/reject',
+    checkAuth(ROLE.ADMIN),
+    validateRequest(rejectBloodRequestSchema),
+    BloodRequestController.rejectBloodRequest,
 );
 
 router.get(

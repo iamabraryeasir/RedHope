@@ -1,7 +1,7 @@
 /**
  * Node Modules
  */
-import { Schema, model, models, Types } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
 /**
  * Local Modules
@@ -79,6 +79,12 @@ const bloodRequestSchema = new Schema<IBloodRequest>(
             enum: Object.values(REQUEST_STATUS),
             default: REQUEST_STATUS.PENDING,
             index: true,
+        },
+
+        reasonOfRejection: {
+            type: String,
+            trim: true,
+            maxlength: 1000,
         },
 
         matchedDonor: { type: Types.ObjectId, ref: 'User' },

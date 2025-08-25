@@ -73,3 +73,10 @@ export const updateBloodRequestStatusSchema = z.object({
     status: z.nativeEnum(REQUEST_STATUS),
     note: z.string().trim().max(500).optional(),
 });
+
+/**
+ * Reject Blood Request Schema
+ */
+export const rejectBloodRequestSchema = z.object({
+    reasonOfRejection: z.string().trim().min(3).max(1000),
+});
