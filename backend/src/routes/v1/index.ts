@@ -15,6 +15,7 @@ import sendResponse from '@/utils/sendResponse';
 import { UserRouter } from '@/modules/user/user.routes';
 import { AuthRouter } from '@/modules/auth/auth.routes';
 import { OtpRouter } from '@/modules/otp/otp.routes';
+import { BloodRequestRouter } from '@/modules/blood-request/blood-request.routes';
 
 /**
  * Types
@@ -47,7 +48,8 @@ router.get('/', (req: Request, res: Response) => {
 const moduleRoutes: IModuleRoutes[] = [
     { path: '/users', route: UserRouter },
     { path: '/auth', route: AuthRouter },
-    {path: "/otp", route: OtpRouter}
+    { path: '/otp', route: OtpRouter },
+    { path: '/blood-request', route: BloodRequestRouter },
 ];
 
 /**
