@@ -41,6 +41,19 @@ const getAllBloodRequests = catchAsync(async (req: Request, res: Response) => {
 });
 
 /**
+ * Get All Pending Blood Requests (Admin Only)
+ */
+const getAllPendingBloodRequests = catchAsync(async (req: Request, res: Response) => {
+    const query = req.query as Record<string, string>;
+    const pendingBloodRequests = await BloodRequestService.getAllPendingBloodRequests(query);
+    sendResponse(res, {
+        statusCode: httpCodes.OK,
+        message: 'Pending blood requests retrieved successfully',
+        data: pendingBloodRequests,
+    });
+});
+
+/**
  * Get Blood Request by ID
  */
 const getBloodRequestById = catchAsync(async (req: Request, res: Response) => {
@@ -56,5 +69,6 @@ const getBloodRequestById = catchAsync(async (req: Request, res: Response) => {
 export const BloodRequestController = {
     newBloodRequest,
     getAllBloodRequests,
+    getAllPendingBloodRequests,
     getBloodRequestById,
 };

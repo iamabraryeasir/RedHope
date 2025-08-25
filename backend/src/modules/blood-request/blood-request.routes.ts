@@ -31,6 +31,12 @@ router.get(
 );
 
 router.get(
+    '/pending',
+    checkAuth(ROLE.ADMIN),
+    BloodRequestController.getAllPendingBloodRequests,
+);
+
+router.get(
     '/:id',
     checkAuth(...Object.values(ROLE)),
     BloodRequestController.getBloodRequestById,

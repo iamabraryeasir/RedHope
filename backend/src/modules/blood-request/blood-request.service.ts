@@ -41,6 +41,29 @@ const getAllBloodRequests = async (query: Record<string, string> = {}) => {
 };
 
 /**
+ * Get All Pending Blood Requests (Admin Only)
+ */
+const getAllPendingBloodRequests = async (
+    query: Record<string, string> = {},
+) => {
+    const queryBuilder = new QueryBuilder(
+        BloodRequest.find({ status: REQUEST_STATUS.PENDING }),
+        query,
+    );
+
+    const bloodRequestsData = queryBuilder.filter().sort().fields().paginate();
+
+    const [data, meta] = await Promise.all([
+        bloodRequestsData
+            .build()
+            .populate('createdBy', 'name email phoneNumber'),
+        queryBuilder.getMeta(),
+    ]);
+
+    return { data, meta };
+};
+
+/**
  * Get Blood Request by ID
  */
 const getBloodRequestById = async (id: string) => {
@@ -56,5 +79,6 @@ const getBloodRequestById = async (id: string) => {
 export const BloodRequestService = {
     createBloodRequest,
     getAllBloodRequests,
+    getAllPendingBloodRequests,
     getBloodRequestById,
 };
