@@ -49,7 +49,7 @@ const moduleRoutes: IModuleRoutes[] = [
     { path: '/users', route: UserRouter },
     { path: '/auth', route: AuthRouter },
     { path: '/otp', route: OtpRouter },
-    { path: '/blood-request', route: BloodRequestRouter },
+    { path: '/requests', route: BloodRequestRouter },
 ];
 
 /**
