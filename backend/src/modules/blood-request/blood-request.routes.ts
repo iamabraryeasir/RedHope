@@ -13,6 +13,7 @@ import {
     createBloodRequestSchema,
     updateBloodRequestStatusSchema,
     rejectBloodRequestSchema,
+    editPendingBloodRequestSchema,
 } from '@/modules/blood-request/blood-request.validator';
 import { validateRequest } from '@/middlewares/validateRequest.middleware';
 
@@ -52,6 +53,37 @@ router.patch(
     checkAuth(ROLE.ADMIN),
     validateRequest(rejectBloodRequestSchema),
     BloodRequestController.rejectBloodRequest,
+);
+
+router.patch(
+    '/:id',
+    checkAuth(...Object.values(ROLE)),
+    validateRequest(editPendingBloodRequestSchema),
+    BloodRequestController.editPendingBloodRequest,
+);
+
+router.post(
+    '/:id/respond',
+    checkAuth(...Object.values(ROLE)),
+    BloodRequestController.respondToBloodRequest,
+);
+
+router.delete(
+    '/:id/respond',
+    checkAuth(...Object.values(ROLE)),
+    BloodRequestController.withdrawBloodRequestResponse,
+);
+
+router.get(
+    '/:id/responders',
+    checkAuth(...Object.values(ROLE)),
+    BloodRequestController.getBloodRequestResponders,
+);
+
+router.patch(
+    '/:id/match/:userId',
+    checkAuth(...Object.values(ROLE)),
+    BloodRequestController.matchBloodRequestDonor,
 );
 
 router.get(

@@ -43,15 +43,18 @@ const getAllBloodRequests = catchAsync(async (req: Request, res: Response) => {
 /**
  * Get All Blood Requests (Admin Only - Full Access)
  */
-const getAllBloodRequestsAdmin = catchAsync(async (req: Request, res: Response) => {
-    const query = req.query as Record<string, string>;
-    const allBloodRequests = await BloodRequestService.getAllBloodRequestsAdmin(query);
-    sendResponse(res, {
-        statusCode: httpCodes.OK,
-        message: 'All blood requests retrieved successfully',
-        data: allBloodRequests,
-    });
-});
+const getAllBloodRequestsAdmin = catchAsync(
+    async (req: Request, res: Response) => {
+        const query = req.query as Record<string, string>;
+        const allBloodRequests =
+            await BloodRequestService.getAllBloodRequestsAdmin(query);
+        sendResponse(res, {
+            statusCode: httpCodes.OK,
+            message: 'All blood requests retrieved successfully',
+            data: allBloodRequests,
+        });
+    },
+);
 
 /**
  * Update Blood Request Status
@@ -101,6 +104,116 @@ const rejectBloodRequest = catchAsync(async (req: Request, res: Response) => {
 });
 
 /**
+ * Edit Pending Blood Request (Owner Only)
+ */
+const editPendingBloodRequest = catchAsync(
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const updateData = req.body;
+        const userId = req?.user?.userId;
+
+        const updatedBloodRequest =
+            await BloodRequestService.editPendingBloodRequest(
+                id,
+                updateData,
+                userId,
+            );
+
+        sendResponse(res, {
+            statusCode: httpCodes.OK,
+            message: 'Blood request updated successfully',
+            data: updatedBloodRequest,
+        });
+    },
+);
+
+/**
+ * Respond to Blood Request (Offer to Donate)
+ */
+const respondToBloodRequest = catchAsync(
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const userId = req?.user?.userId;
+
+        const updatedBloodRequest =
+            await BloodRequestService.respondToBloodRequest(id, userId);
+
+        sendResponse(res, {
+            statusCode: httpCodes.OK,
+            message: 'Successfully responded to blood request',
+            data: updatedBloodRequest,
+        });
+    },
+);
+
+/**
+ * Withdraw Blood Request Response (Remove Donation Offer)
+ */
+const withdrawBloodRequestResponse = catchAsync(
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const userId = req?.user?.userId;
+
+        const updatedBloodRequest =
+            await BloodRequestService.withdrawBloodRequestResponse(id, userId);
+
+        sendResponse(res, {
+            statusCode: httpCodes.OK,
+            message: 'Successfully withdrew donation offer',
+            data: updatedBloodRequest,
+        });
+    },
+);
+
+/**
+ * Get Blood Request Responders (Owner/Admin Only)
+ */
+const getBloodRequestResponders = catchAsync(
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const userId = req?.user?.userId;
+        const userRole = req?.user?.role;
+
+        const responders = await BloodRequestService.getBloodRequestResponders(
+            id,
+            userId,
+            userRole,
+        );
+
+        sendResponse(res, {
+            statusCode: httpCodes.OK,
+            message: 'Blood request responders retrieved successfully',
+            data: responders,
+        });
+    },
+);
+
+/**
+ * Match Blood Request Donor (Owner/Admin Only)
+ */
+const matchBloodRequestDonor = catchAsync(
+    async (req: Request, res: Response) => {
+        const { id, userId } = req.params;
+        const currentUserId = req?.user?.userId;
+        const currentUserRole = req?.user?.role;
+
+        const matchedBloodRequest =
+            await BloodRequestService.matchBloodRequestDonor(
+                id,
+                userId,
+                currentUserId,
+                currentUserRole,
+            );
+
+        sendResponse(res, {
+            statusCode: httpCodes.OK,
+            message: 'Donor matched successfully',
+            data: matchedBloodRequest,
+        });
+    },
+);
+
+/**
  * Get Blood Request by ID
  */
 const getBloodRequestById = catchAsync(async (req: Request, res: Response) => {
@@ -119,5 +232,10 @@ export const BloodRequestController = {
     getAllBloodRequestsAdmin,
     updateBloodRequestStatus,
     rejectBloodRequest,
+    editPendingBloodRequest,
+    respondToBloodRequest,
+    withdrawBloodRequestResponse,
+    getBloodRequestResponders,
+    matchBloodRequestDonor,
     getBloodRequestById,
 };

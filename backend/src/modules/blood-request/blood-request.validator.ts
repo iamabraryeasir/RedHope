@@ -67,6 +67,34 @@ export const updateBloodRequestSchema = z.object({
 });
 
 /**
+ * Edit Pending Blood Request Schema (excludes status)
+ */
+export const editPendingBloodRequestSchema = z.object({
+    patientName: z.string().trim().min(1).optional(),
+    bloodGroup: z.nativeEnum(BLOOD_GROUP).optional(),
+    unitsNeeded: z.number().int().min(1).max(6).optional(),
+    urgency: z.nativeEnum(URGENCY).optional(),
+    reasonOfRequest: z.string().trim().min(3).max(1000).optional(),
+
+    hospitalName: z.string().trim().optional(),
+    hospitalAddress: z.string().trim().optional(),
+    hospitalCity: z.string().trim().optional(),
+    hospitalDistrict: z.string().trim().optional(),
+
+    contactPhone: z
+        .string()
+        .regex(/^(\+?88)?01[3-9]\d{8}$/)
+        .optional(),
+    altContactPhone: z
+        .string()
+        .regex(/^(\+?88)?01[3-9]\d{8}$/)
+        .optional(),
+
+    neededBy: z.coerce.date().optional(),
+    expiresAt: z.coerce.date().optional(),
+});
+
+/**
  * Update Blood Request Status Schema
  */
 export const updateBloodRequestStatusSchema = z.object({
