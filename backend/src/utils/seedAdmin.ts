@@ -7,7 +7,7 @@ import bcryptjs from 'bcryptjs';
  * Local Modules
  */
 import config from '@/config';
-import { ROLE } from '@/modules/user/user.interface';
+import { GENDER, ROLE } from '@/modules/user/user.interface';
 import { User } from '@/modules/user/user.model';
 
 /**
@@ -35,7 +35,17 @@ export const seedAdmin = async () => {
             name: 'RedHope Admin',
             role: ROLE.ADMIN,
             email: config.ADMIN.EMAIL,
+            phoneNumber: '01860700650',
             password: hashedPassword,
+            bloodGroup: 'B+',
+            gender: GENDER.MALE,
+            dateOfBirth: '2002-08-15',
+            district: 'Chittagong',
+            city: 'Khulshi',
+            thana: 'Khulshi',
+            isVerified: true,
+            isBlocked: false,
+            isDeleted: false,
         });
 
         console.log('Default Admin created successfully');

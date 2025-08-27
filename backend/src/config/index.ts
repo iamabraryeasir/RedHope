@@ -30,8 +30,23 @@ interface IConfig {
         ACCESS_EXPIRE: string;
         REFRESH_SECRET: string;
         REFRESH_EXPIRE: string;
+        RESET_PASSWORD_SECRET: string;
     };
     BCRYPT_SALT_ROUND: number;
+    EMAIL_SENDER: {
+        SMTP_HOST: string;
+        SMTP_PORT: number;
+        SMTP_USER: string;
+        SMTP_PASS: string;
+        SMTP_FROM: string;
+    };
+    REDIS: {
+        USERNAME: string;
+        PASSWORD: string;
+        HOST: string;
+        PORT: string;
+    };
+    FRONTEND_URL: string;
 }
 
 /**
@@ -52,7 +67,18 @@ const loadConfigVariable = (): IConfig => {
         'JWT_ACCESS_EXPIRE',
         'JWT_REFRESH_SECRET',
         'JWT_REFRESH_EXPIRE',
+        'JWT_RESET_PASSWORD_SECRET',
         'BCRYPT_SALT_ROUND',
+        'SMTP_HOST',
+        'SMTP_PORT',
+        'SMTP_USER',
+        'SMTP_PASS',
+        'SMTP_FROM',
+        'REDIS_USERNAME',
+        'REDIS_PASSWORD',
+        'REDIS_HOST',
+        'REDIS_PORT',
+        'FRONTEND_URL',
     ];
 
     // throw error if any required env variable is not found
@@ -84,8 +110,24 @@ const loadConfigVariable = (): IConfig => {
             ACCESS_EXPIRE: process.env.JWT_ACCESS_EXPIRE as string,
             REFRESH_SECRET: process.env.JWT_REFRESH_SECRET as string,
             REFRESH_EXPIRE: process.env.JWT_REFRESH_EXPIRE as string,
+            RESET_PASSWORD_SECRET: process.env
+                .JWT_RESET_PASSWORD_SECRET as string,
         },
         BCRYPT_SALT_ROUND: Number(process.env.BCRYPT_SALT_ROUND),
+        REDIS: {
+            USERNAME: process.env.REDIS_USERNAME as string,
+            PASSWORD: process.env.REDIS_PASSWORD as string,
+            HOST: process.env.REDIS_HOST as string,
+            PORT: process.env.REDIS_PORT as string,
+        },
+        EMAIL_SENDER: {
+            SMTP_USER: process.env.SMTP_USER as string,
+            SMTP_PASS: process.env.SMTP_PASS as string,
+            SMTP_PORT: Number(process.env.SMTP_PORT),
+            SMTP_HOST: process.env.SMTP_HOST as string,
+            SMTP_FROM: process.env.SMTP_FROM as string,
+        },
+        FRONTEND_URL: process.env.FRONTEND_URL as string,
     };
 };
 
