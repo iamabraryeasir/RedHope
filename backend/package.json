@@ -4,6 +4,8 @@
     "description": "",
     "main": "dist/index.js",
     "scripts": {
+        "build": "tsc && npm run copy:ejs",
+        "copy:ejs": "npx cpx2 \"src/**/*.ejs\" dist/",
         "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts"
     },
     "keywords": [],
@@ -36,6 +38,7 @@
         "@types/jsonwebtoken": "^9.0.10",
         "@types/node": "^24.3.0",
         "@types/nodemailer": "^7.0.1",
+        "cpx2": "^8.0.0",
         "nodemon": "^3.1.10",
         "prettier": "^3.6.2",
         "ts-node": "^10.9.2",
