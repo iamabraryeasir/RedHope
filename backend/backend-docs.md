@@ -26,6 +26,7 @@
 - **Authentication**: JWT (JSON Web Tokens)
 - **Password Hashing**: bcryptjs
 - **Email Service**: Nodemailer (SMTP)
+- **Template Engine**: EJS (for email templates)
 - **Validation**: Zod
 - **HTTP Client**: Built-in Express features
 
@@ -39,9 +40,10 @@
 
 ### Development Tools
 - **Development Server**: ts-node-dev
-- **Build Tool**: TypeScript Compiler
+- **Build Tool**: TypeScript Compiler with EJS template copying
 - **Code Formatting**: Prettier
-- **Path Mapping**: TypeScript paths (@/ alias)
+- **File Operations**: cpx2 for copying template files
+- **Clean Build**: rimraf for cleaning dist directory
 
 ## 📂 Project Structure
 
@@ -73,10 +75,22 @@ src/
 │   ├── auth/               # Authentication system
 │   ├── blood-request/      # Blood request management
 │   ├── otp/                # OTP verification system
+│   ├── phone-access-log/   # Phone number access logging
 │   └── user/               # User management
 ├── routes/                 # API routes
 │   └── v1/                # Version 1 API routes
 └── utils/                  # Utility functions
+    ├── QueryBuilder.ts      # Advanced query building for MongoDB
+    ├── catchAsync.ts        # Async error handling wrapper
+    ├── jwt.ts               # JWT token utilities
+    ├── seedAdmin.ts         # Admin user seeding
+    ├── sendEmail.ts         # Email sending utilities
+    ├── sendResponse.ts      # Standardized API responses
+    ├── setCookie.ts         # Cookie management
+    ├── userTokens.ts        # User token management
+    └── templates/           # Email templates (EJS)
+        ├── forgotPassword.ejs # Password reset email template
+        └── otp.ejs          # OTP verification email template
 ```
 
 ## 🔧 Installation & Setup
@@ -163,6 +177,45 @@ The server will start on `http://localhost:5000`
 ### Base URL
 ```
 http://localhost:5000/api/v1
+```
+
+### 🔍 Query Parameters
+
+Many GET endpoints support advanced filtering, searching, sorting, and pagination through query parameters powered by the QueryBuilder utility:
+
+#### Filtering
+```
+GET /api/v1/users?bloodGroup=O+&district=Dhaka&availabilityStatus=AVAILABLE
+```
+
+#### Searching
+```
+GET /api/v1/users?searchTerm=john
+GET /api/v1/requests?searchTerm=emergency
+```
+
+#### Sorting
+```
+GET /api/v1/requests?sort=-createdAt        # Descending by creation date
+GET /api/v1/users?sort=name                 # Ascending by name
+GET /api/v1/requests?sort=-urgency,createdAt # Multiple fields
+```
+
+#### Field Selection
+```
+GET /api/v1/users?fields=name,email,bloodGroup
+GET /api/v1/requests?fields=-password,-__v  # Exclude fields
+```
+
+#### Pagination
+```
+GET /api/v1/users?page=2&limit=10
+GET /api/v1/requests?page=1&limit=20
+```
+
+#### Combined Example
+```
+GET /api/v1/users?bloodGroup=O+&district=Dhaka&searchTerm=john&sort=-lastDonatedAt&page=1&limit=10&fields=name,email,bloodGroup,phoneNumber
 ```
 
 ### 🔐 Authentication Endpoints (`/auth`)
@@ -275,6 +328,19 @@ http://localhost:5000/api/v1
 }
 ```
 
+### Phone Access Log Schema
+```typescript
+{
+  userId: ObjectId; // User whose phone was accessed
+  requesterId: ObjectId; // User who accessed the phone number
+  ip: string; // IP address of the requester
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+> **Security Feature**: The Phone Access Log module automatically tracks whenever a user's phone number is accessed through the `/users/:id/contact` endpoint. This provides an audit trail for phone number access, helping to prevent abuse and maintain user privacy.
+
 ## 🔒 Authentication & Authorization
 
 ### JWT Token System
@@ -365,7 +431,18 @@ All API responses follow a consistent format:
 ### Available Scripts
 ```bash
 npm run dev    # Start development server with hot reload
+npm run build  # Build TypeScript to JavaScript and copy EJS templates
+npm start      # Start production server from built files
+npm run clean  # Clean the dist directory
 ```
+
+### Key Dependencies
+- **Express.js 5.1.0**: Latest Express framework
+- **Mongoose 8.17.1**: MongoDB object modeling
+- **Redis 5.8.2**: Redis client for caching
+- **Zod 4.0.17**: TypeScript-first schema validation
+- **Nodemailer 7.0.5**: Email sending functionality
+- **EJS 3.1.10**: Template engine for email templates
 
 ### Code Style
 - TypeScript for type safety
@@ -376,13 +453,54 @@ npm run dev    # Start development server with hot reload
 
 ## 🚀 Deployment
 
+### Vercel Deployment
+
+The application is configured for deployment on Vercel using the included `vercel.json` configuration.
+
+#### Vercel Configuration
+```json
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "src/server.ts",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/src/server.ts"
+        }
+    ]
+}
+```
+
+#### Deployment Steps
+1. **Install Vercel CLI**: `npm i -g vercel`
+2. **Build the project**: `npm run build`
+3. **Deploy to Vercel**: `vercel --prod`
+4. **Configure environment variables** in Vercel dashboard
+
+#### Required Build Scripts
+```json
+{
+  "scripts": {
+    "start": "node ./dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc && npx cpx2 \"src/**/*.ejs\" dist/",
+    "clean": "rimraf dist"
+  }
+}
+```
+
 ### Environment Setup
 1. Set `NODE_ENV=PRODUCTION`
-2. Configure production database URLs
+2. Configure production database URLs (MongoDB Atlas recommended)
 3. Set up proper CORS origins
 4. Configure production email service
 5. Set secure JWT secrets
-6. Configure Redis for production
+6. Configure Redis for production (Redis Cloud recommended)
 
 ### Production Considerations
 - Enable trust proxy for reverse proxies
@@ -391,6 +509,7 @@ npm run dev    # Start development server with hot reload
 - Set up monitoring and alerting
 - Implement database backups
 - Use environment-specific configurations
+- Ensure EJS templates are properly copied during build
 
 ## 📝 Contributing
 
