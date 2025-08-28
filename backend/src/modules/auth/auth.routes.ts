@@ -7,12 +7,12 @@ import { Router } from 'express';
  * Local Modules
  */
 import { AuthController } from './auth.controller';
-import { validateRequest } from '@/middlewares/validateRequest.middleware';
+import { validateRequest } from '../../middlewares/validateRequest.middleware';
 import {
     changePasswordZodValidator,
     loginZodValidator,
 } from './auth.validator';
-import { checkAuth } from '@/middlewares/checkAuth.middleware';
+import { checkAuth } from '../../middlewares/checkAuth.middleware';
 import { ROLE } from '../user/user.interface';
 
 /**

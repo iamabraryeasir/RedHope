@@ -6,11 +6,11 @@ import { Router } from 'express';
 /**
  * Local Modules
  */
-import { UserController } from '@/modules/user/user.controller';
-import { validateRequest } from '@/middlewares/validateRequest.middleware';
-import { registerZodValidator } from '@/modules/user/user.validation';
-import { checkAuth } from '@/middlewares/checkAuth.middleware';
-import { ROLE } from '@/modules/user/user.interface';
+import { UserController } from './user.controller';
+import { validateRequest } from '../../middlewares/validateRequest.middleware';
+import { registerZodValidator } from './user.validation';
+import { checkAuth } from '../../middlewares/checkAuth.middleware';
+import { ROLE } from './user.interface';
 
 const router = Router();
 

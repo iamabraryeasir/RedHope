@@ -6,7 +6,7 @@ import { Document, Types } from 'mongoose';
 /**
  * Local Modules
  */
-import { BLOOD_GROUP } from '@/modules/user/user.interface';
+import { BLOOD_GROUP } from '../user/user.interface';
 
 /**
  * Urgency levels for blood requests

@@ -7,16 +7,16 @@ import httpCodes from 'http-status-codes';
 /**
  * Local Modules
  */
-import sendResponse from '@/utils/sendResponse';
+import sendResponse from '../../utils/sendResponse';
 
 /**
  * Routers
  */
-import { UserRouter } from '@/modules/user/user.routes';
-import { AuthRouter } from '@/modules/auth/auth.routes';
-import { OtpRouter } from '@/modules/otp/otp.routes';
-import { BloodRequestRouter } from '@/modules/blood-request/blood-request.routes';
-import { AdminRouter } from '@/modules/admin/admin.routes';
+import { UserRouter } from '../../modules/user/user.routes';
+import { AuthRouter } from '../../modules/auth/auth.routes';
+import { OtpRouter } from '../../modules/otp/otp.routes';
+import { BloodRequestRouter } from '../../modules/blood-request/blood-request.routes';
+import { AdminRouter } from '../../modules/admin/admin.routes';
 
 /**
  * Types

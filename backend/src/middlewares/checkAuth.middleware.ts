@@ -8,11 +8,11 @@ import { NextFunction, Request, Response } from 'express';
 /**
  * Local Modules
  */
-import config from '@/config';
-import { verifyJwtToken } from '@/utils/jwt';
-import { AppError } from '@/errorHelpers/AppError';
-import { ROLE } from '@/modules/user/user.interface';
-import { User } from '@/modules/user/user.model';
+import config from '../config';
+import { verifyJwtToken } from '../utils/jwt';
+import { AppError } from '../errorHelpers/AppError';
+import { ROLE } from '../modules/user/user.interface';
+import { User } from '../modules/user/user.model';
 
 /**
  * Main Middleware Logic

@@ -8,16 +8,16 @@ import jwt from 'jsonwebtoken';
 /**
  * Local Modules
  */
-import { AppError } from '@/errorHelpers/AppError';
+import { AppError } from '../../errorHelpers/AppError';
 import { IUser } from '../user/user.interface';
 import { User } from '../user/user.model';
 import {
     createNewAccessTokenWithRefreshToken,
     createUserTokens,
-} from '@/utils/userTokens';
-import config from '@/config';
-import { sendEmail } from '@/utils/sendEmail';
-import { redisClient } from '@/config/redis.config';
+} from '../../utils/userTokens';
+import config from '../../config';
+import { sendEmail } from '../../utils/sendEmail';
+import { redisClient } from '../../config/redis.config';
 
 /**
  * Login User

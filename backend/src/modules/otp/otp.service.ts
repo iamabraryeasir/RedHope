@@ -7,10 +7,10 @@ import httpStatusCodes from 'http-status-codes';
 /**
  * Local Modules
  */
-import { redisClient } from '@/config/redis.config';
-import { sendEmail } from '@/utils/sendEmail';
-import { AppError } from '@/errorHelpers/AppError';
-import { User } from '@/modules/user/user.model';
+import { redisClient } from '../../config/redis.config';
+import { sendEmail } from '../../utils/sendEmail';
+import { AppError } from '../../errorHelpers/AppError';
+import { User } from '../user/user.model';
 
 /**
  * Local Utils

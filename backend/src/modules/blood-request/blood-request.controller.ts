@@ -7,9 +7,9 @@ import httpCodes from 'http-status-codes';
 /**
  * Local Modules
  */
-import { catchAsync } from '@/utils/catchAsync';
-import sendResponse from '@/utils/sendResponse';
-import { BloodRequestService } from '@/modules/blood-request/blood-request.service';
+import { catchAsync } from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { BloodRequestService } from './blood-request.service';
 
 /**
  * Create Blood Request

@@ -8,10 +8,10 @@
 import {
     IBloodRequest,
     REQUEST_STATUS,
-} from '@/modules/blood-request/blood-request.interface';
-import { BloodRequest } from '@/modules/blood-request/blood-request.model';
-import { QueryBuilder } from '@/utils/QueryBuilder';
-import { AppError } from '@/errorHelpers/AppError';
+} from './blood-request.interface';
+import { BloodRequest } from './blood-request.model';
+import { QueryBuilder } from '../../utils/QueryBuilder';
+import { AppError } from '../../errorHelpers/AppError';
 import httpCodes from 'http-status-codes';
 
 /**

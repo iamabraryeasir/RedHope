@@ -1,10 +1,10 @@
 /**
  * Local Modules
  */
-import { User } from '@/modules/user/user.model';
-import { BloodRequest } from '@/modules/blood-request/blood-request.model';
-import { REQUEST_STATUS } from '@/modules/blood-request/blood-request.interface';
-import { BLOOD_GROUP } from '@/modules/user/user.interface';
+import { User } from '../user/user.model';
+import { BloodRequest } from '../blood-request/blood-request.model';
+import { REQUEST_STATUS } from '../blood-request/blood-request.interface';
+import { BLOOD_GROUP } from '../user/user.interface';
 
 /**
  * Get Dashboard Analytics

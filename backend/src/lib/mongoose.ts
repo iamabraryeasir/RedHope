@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 /**
  * Local Modules
  */
-import config from '@/config';
+import config from '../config';
 
 /**
  * Types

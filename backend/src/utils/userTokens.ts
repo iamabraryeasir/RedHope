@@ -7,11 +7,11 @@ import httpCodes from 'http-status-codes';
 /**
  * Local Modules
  */
-import config from '@/config';
-import { User } from '@/modules/user/user.model';
-import { AppError } from '@/errorHelpers/AppError';
-import { generateJwtToken, verifyJwtToken } from '@/utils/jwt';
-import { IUser } from '@/modules/user/user.interface';
+import config from '../config';
+import { User } from '../modules/user/user.model';
+import { AppError } from '../errorHelpers/AppError';
+import { generateJwtToken, verifyJwtToken } from './jwt';
+import { IUser } from '../modules/user/user.interface';
 
 /**
  * Function for creating access and refresh token in the login

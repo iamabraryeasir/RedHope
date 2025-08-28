@@ -10,8 +10,8 @@ import {
     IBloodRequest,
     URGENCY,
     REQUEST_STATUS,
-} from '@/modules/blood-request/blood-request.interface';
-import { BLOOD_GROUP } from '@/modules/user/user.interface';
+} from './blood-request.interface';
+import { BLOOD_GROUP } from '../user/user.interface';
 
 /**
  * Blood Request Schema

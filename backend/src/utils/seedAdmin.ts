@@ -6,9 +6,9 @@ import bcryptjs from 'bcryptjs';
 /**
  * Local Modules
  */
-import config from '@/config';
-import { GENDER, ROLE } from '@/modules/user/user.interface';
-import { User } from '@/modules/user/user.model';
+import config from '../config';
+import { GENDER, ROLE } from '../modules/user/user.interface';
+import { User } from '../modules/user/user.model';
 
 /**
  * Seed Admin Logic

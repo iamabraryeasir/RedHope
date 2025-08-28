@@ -6,7 +6,7 @@ import { Schema, model } from 'mongoose';
 /**
  * Types
  */
-import { IPhoneAccessLog } from '@/modules/phone-access-log/phone-access-log.interface';
+import { IPhoneAccessLog } from './phone-access-log.interface';
 
 /**
  * Phone Access Log Schema

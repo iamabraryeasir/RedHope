@@ -6,11 +6,11 @@ import { z } from 'zod';
 /**
  * Local Modules
  */
-import { BLOOD_GROUP } from '@/modules/user/user.interface';
+import { BLOOD_GROUP } from '../user/user.interface';
 import {
     REQUEST_STATUS,
     URGENCY,
-} from '@/modules/blood-request/blood-request.interface';
+} from './blood-request.interface';
 
 /**
  * Create Blood Request Schema

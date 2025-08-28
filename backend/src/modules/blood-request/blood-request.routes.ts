@@ -6,16 +6,16 @@ import { Router } from 'express';
 /**
  * Local Modules
  */
-import { BloodRequestController } from '@/modules/blood-request/blood-request.controller';
-import { checkAuth } from '@/middlewares/checkAuth.middleware';
-import { ROLE } from '@/modules/user/user.interface';
+import { BloodRequestController } from './blood-request.controller';
+import { checkAuth } from '../../middlewares/checkAuth.middleware';
+import { ROLE } from '../user/user.interface';
 import {
     createBloodRequestSchema,
     updateBloodRequestStatusSchema,
     rejectBloodRequestSchema,
     editPendingBloodRequestSchema,
-} from '@/modules/blood-request/blood-request.validator';
-import { validateRequest } from '@/middlewares/validateRequest.middleware';
+} from './blood-request.validator';
+import { validateRequest } from '../../middlewares/validateRequest.middleware';
 
 /**
  * Routes

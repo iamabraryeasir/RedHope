@@ -6,17 +6,17 @@ import { NextFunction, Request, Response } from 'express';
 /**
  * Local Modules
  */
-import config, { NODE_ENV } from '@/config';
-import { AppError } from '@/errorHelpers/AppError';
+import config, { NODE_ENV } from '../config';
+import { AppError } from '../errorHelpers/AppError';
 
 /**
  * Error Handlers
  */
-import { handleDuplicateError } from '@/errorHelpers/handleDuplicateError';
-import { handleCastError } from '@/errorHelpers/handleCastError';
-import { handleZodValidationError } from '@/errorHelpers/handleZodValidationError';
-import { handleMongooseValidationError } from '@/errorHelpers/handleMongooseValidationError';
-import { IErrorSources } from '@/interfaces/error.types';
+import { handleDuplicateError } from '../errorHelpers/handleDuplicateError';
+import { handleCastError } from '../errorHelpers/handleCastError';
+import { handleZodValidationError } from '../errorHelpers/handleZodValidationError';
+import { handleMongooseValidationError } from '../errorHelpers/handleMongooseValidationError';
+import { IErrorSources } from '../interfaces/error.types';
 
 /**
  * Middleware Logic

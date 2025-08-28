@@ -1,11 +1,11 @@
 /**
  * Local Modules
  */
-import app from '@/app';
-import config, { NODE_ENV } from '@/config';
-import { connectToDatabase, disconnectFromDatabase } from '@/lib/mongoose';
-import { seedAdmin } from '@/utils/seedAdmin';
-import { connectToRedis } from '@/config/redis.config';
+import app from './app';
+import config, { NODE_ENV } from './config';
+import { connectToDatabase, disconnectFromDatabase } from './lib/mongoose';
+import { seedAdmin } from './utils/seedAdmin';
+import { connectToRedis } from './config/redis.config';
 
 /**
  * Async IIFE for starting the express server.

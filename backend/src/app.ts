@@ -10,10 +10,10 @@ import helmet from 'helmet';
 /**
  * Local Modules
  */
-import config, { NODE_ENV } from '@/config';
-import limiter from '@/lib/express_rate_limit';
-import { AppRouter } from '@/routes/v1';
-import { routeNotFound } from '@/middlewares/routeNotFound.middleware';
+import config, { NODE_ENV } from './config';
+import limiter from './lib/express_rate_limit';
+import { AppRouter } from './routes/v1';
+import { routeNotFound } from './middlewares/routeNotFound.middleware';
 
 /**
  * Types

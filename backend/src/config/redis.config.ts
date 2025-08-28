@@ -6,7 +6,7 @@ import { createClient } from 'redis';
 /**
  * Local Modules
  */
-import config from '@/config';
+import config from './index';
 
 /**
  * Configure Redis Client

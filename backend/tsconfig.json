@@ -6,8 +6,6 @@
         "rootDir": "src",
         "outDir": "dist",
 
-        "baseUrl": "src",
-        "paths": { "@/*": ["*"] },
 
         "removeComments": true,
         "esModuleInterop": true,

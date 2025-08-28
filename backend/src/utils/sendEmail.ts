@@ -8,8 +8,8 @@ import nodemailer from 'nodemailer';
 /**
  * Local Modules
  */
-import config from '@/config';
-import { AppError } from '@/errorHelpers/AppError';
+import config from '../config';
+import { AppError } from '../errorHelpers/AppError';
 
 /**
  * Types

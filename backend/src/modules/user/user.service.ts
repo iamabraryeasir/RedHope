@@ -8,13 +8,13 @@ import bcrypt from 'bcryptjs';
 /**
  * Local Modules
  */
-import { IUser, ROLE } from '@/modules/user/user.interface';
-import { AppError } from '@/errorHelpers/AppError';
-import { User } from '@/modules/user/user.model';
-import config from '@/config';
-import { QueryBuilder } from '@/utils/QueryBuilder';
-import { userSearchableFields } from '@/modules/user/user.constant';
-import PhoneAccessLog from '@/modules/phone-access-log/phone-access-log.model';
+import { IUser, ROLE } from './user.interface';
+import { AppError } from '../../errorHelpers/AppError';
+import { User } from './user.model';
+import config from '../../config';
+import { QueryBuilder } from '../../utils/QueryBuilder';
+import { userSearchableFields } from './user.constant';
+import PhoneAccessLog from '../phone-access-log/phone-access-log.model';
 
 /**
  * Register User

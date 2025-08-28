@@ -6,7 +6,7 @@ import { Query } from 'mongoose';
 /**
  * Local Modules
  */
-import { excludeField } from '@/constants';
+import { excludeField } from '../constants';
 
 /**
  * Query Builder Logic

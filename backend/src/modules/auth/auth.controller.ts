@@ -7,11 +7,11 @@ import httpCodes from 'http-status-codes';
 /**
  * Local Modules
  */
-import { catchAsync } from '@/utils/catchAsync';
-import sendResponse from '@/utils/sendResponse';
+import { catchAsync } from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
 import { AuthService } from './auth.service';
-import { setAuthCookie } from '@/utils/setCookie';
-import { AppError } from '@/errorHelpers/AppError';
+import { setAuthCookie } from '../../utils/setCookie';
+import { AppError } from '../../errorHelpers/AppError';
 
 /**
  * Login User

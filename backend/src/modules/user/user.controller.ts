@@ -7,8 +7,8 @@ import httpCodes from 'http-status-codes';
 /**
  * Local Modules
  */
-import { catchAsync } from '@/utils/catchAsync';
-import sendResponse from '@/utils/sendResponse';
+import { catchAsync } from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
 import { UserService } from './user.service';
 import { JwtPayload } from 'jsonwebtoken';
 import { IUser } from './user.interface';

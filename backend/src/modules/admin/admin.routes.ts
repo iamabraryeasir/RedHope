@@ -7,8 +7,8 @@ import { Router } from 'express';
  * Local Modules
  */
 import { AdminController } from './admin.controller';
-import { checkAuth } from '@/middlewares/checkAuth.middleware';
-import { ROLE } from '@/modules/user/user.interface';
+import { checkAuth } from '../../middlewares/checkAuth.middleware';
+import { ROLE } from '../user/user.interface';
 
 /**
  * Routes

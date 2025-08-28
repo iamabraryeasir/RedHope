@@ -6,9 +6,9 @@ import { Request, Response } from 'express';
 /**
  * Local Modules
  */
-import { catchAsync } from '@/utils/catchAsync';
-import sendResponse from '@/utils/sendResponse';
-import { OtpService } from '@/modules/otp/otp.service';
+import { catchAsync } from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { OtpService } from './otp.service';
 
 /**
  * Send Otp for Verification
