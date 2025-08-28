@@ -1,19 +1,19 @@
 {
     "compilerOptions": {
         "types": ["node", "express"],
-        "target": "es6",
-        "module": "commonjs",
+        "target": "ES2019",
+        "module": "CommonJS",
         "rootDir": "src",
-        "baseUrl": "./",
         "outDir": "dist",
+
+        "baseUrl": "src",
+        "paths": { "@/*": ["*"] },
+
         "removeComments": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true,
-        "skipLibCheck": true,
-        "paths": {
-            "@/*": ["src/*"]
-        }
+        "skipLibCheck": true
     },
     "include": ["src/**/*", "src/interfaces/index.d.ts"],
     "exclude": ["node_modules"]
