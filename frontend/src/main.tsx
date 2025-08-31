@@ -11,11 +11,14 @@ import { RouterProvider } from "react-router/dom";
 import "@/index.css";
 import { store } from "@/redux/store";
 import { router } from "@/routes";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 createRoot(document.getElementById("root")!).render(
   <>
     <ReduxProvider store={store}>
-      <RouterProvider router={router} />
+      <ThemeProvider defaultTheme="system" storageKey="redhope-color-theme">
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </ReduxProvider>
   </>
 );
