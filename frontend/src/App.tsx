@@ -1,24 +1,21 @@
 /**
  * Node Modules
  */
+import { Outlet } from "react-router";
 
 /**
  * Local Modules
  */
-import { Button } from "@/components/ui/button";
-import Navbar from "@/components/layout/Navbar";
+import CommonLayout from "@/components/layout/CommonLayout";
 
 /**
  * Component Logic
  */
 function App() {
   return (
-    <>
-      <Navbar />
-      <div className="flex min-h-svh flex-col items-center justify-center">
-        <Button>Click me</Button>
-      </div>
-    </>
+    <CommonLayout>
+      <Outlet />
+    </CommonLayout>
   );
 }
 
