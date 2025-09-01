@@ -14,7 +14,6 @@ export enum NODE_ENV {
 interface IConfig {
     PORT: number;
     NODE_ENV: NODE_ENV;
-    WHITELIST_ORIGINS: string[];
     ADMIN: {
         EMAIL: string;
         PASSWORD: string;
@@ -59,7 +58,6 @@ const loadConfigVariable = (): IConfig => {
         'NODE_ENV',
         'ADMIN_EMAIL',
         'ADMIN_PASSWORD',
-        'WHITELIST_ORIGINS',
         'MONGODB_URI',
         'MONGODB_NAME',
         'MONGODB_APP_NAME',
@@ -92,9 +90,6 @@ const loadConfigVariable = (): IConfig => {
     return {
         PORT: Number(process.env.PORT) || 5000,
         NODE_ENV: process.env.NODE_ENV as NODE_ENV,
-        WHITELIST_ORIGINS: (process.env.WHITELIST_ORIGINS as string)?.split(
-            ',',
-        ),
         ADMIN: {
             EMAIL: process.env.ADMIN_EMAIL as string,
             PASSWORD: process.env.ADMIN_PASSWORD as string,

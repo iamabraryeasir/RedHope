@@ -36,23 +36,12 @@ if (config.NODE_ENV === NODE_ENV.PRODUCTION) {
 /**
  * CORS Middleware Apply
  */
-const corsOptions: CorsOptions = {
-    origin(origin, callback) {
-        if (
-            config.NODE_ENV === NODE_ENV.DEVELOPMENT ||
-            !origin ||
-            config.WHITELIST_ORIGINS.includes(origin)
-        ) {
-            callback(null, true);
-        } else {
-            // reject request from non-whitelisted origins
-            callback(new Error(`CORS Error: ${origin} is not allowed`), false);
-            console.warn(`CORS Error: ${origin} is not allowed`);
-        }
-    },
-};
-
-app.use(cors(corsOptions));
+app.use(
+    cors({
+        origin: config.FRONTEND_URL,
+        credentials: true,
+    }),
+);
 
 /**
  * Enable JSON and URL Encoded request body parsing
