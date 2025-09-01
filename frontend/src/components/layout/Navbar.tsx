@@ -98,9 +98,9 @@ export default function Component() {
             </Popover>
             {/* Logo */}
             <div className="flex items-center">
-              <a href="#" className="text-primary hover:text-primary/90">
+              <Link to="/" className="text-primary hover:text-primary/90">
                 <Logo />
-              </a>
+              </Link>
             </div>
           </div>
           {/* Middle area */}
