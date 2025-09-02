@@ -1,10 +1,11 @@
 /**
  * Node Modules
  */
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 
 /**
  * Local Modules
@@ -14,12 +15,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { Form, FormField } from "@/components/ui/form";
 
 /**
  * Assets
  */
 import LoginImage from "@/assets/login-image.jpeg";
-import { Form, FormField } from "@/components/ui/form";
 
 /**
  * Form Schema
@@ -44,8 +46,28 @@ export function LoginForm({
     },
   });
 
-  function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    console.log(values);
+  const navigate = useNavigate();
+  const [login] = useLoginMutation();
+
+  async function onSubmit(loginInfo: z.infer<typeof loginFormSchema>) {
+    try {
+      const res = await login(loginInfo).unwrap();
+
+      if (res.success) {
+        toast.success("Successfully logged in");
+        navigate("/verify");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.data.message === "Invalid email or password") {
+        toast.error(error.data.message);
+      }
+
+      if (error.data.message === "User is not verified") {
+        toast.error("Your account is not verified");
+        navigate("/verify", { state: loginInfo.email });
+      }
+    }
   }
 
   return (
@@ -61,7 +83,7 @@ export function LoginForm({
                 <div className="flex flex-col items-center text-center">
                   <h1 className="text-2xl font-bold">Welcome back</h1>
                   <p className="text-muted-foreground text-balance">
-                    Login to your Acme Inc account
+                    Login to your RedHope account
                   </p>
                 </div>
 
@@ -92,7 +114,7 @@ export function LoginForm({
                           Forgot your password?
                         </Link>
                       </div>
-                      <Input {...field} />
+                      <Input type="password" {...field} />
                     </div>
                   )}
                 />
