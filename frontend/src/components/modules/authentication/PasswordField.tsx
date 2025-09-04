@@ -1,7 +1,6 @@
 import { useId, useMemo, useState } from "react";
 import { CheckIcon, EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { type ControllerRenderProps } from "react-hook-form";
 
 interface PasswordFieldProps {
@@ -52,7 +51,6 @@ export function PasswordField({ field }: PasswordFieldProps) {
   return (
     <div>
       <div className="*:not-first:mt-2">
-        <Label htmlFor={id}>Password</Label>
         <div className="relative">
           <Input
             id={id}
