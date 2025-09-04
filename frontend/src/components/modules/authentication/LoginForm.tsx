@@ -22,6 +22,7 @@ import { Form, FormField } from "@/components/ui/form";
  * Assets
  */
 import LoginImage from "@/assets/login-image.jpeg";
+import { PasswordField } from "./PasswordField";
 
 /**
  * Form Schema
@@ -114,7 +115,7 @@ export function LoginForm({
                           Forgot your password?
                         </Link>
                       </div>
-                      <Input type="password" {...field} />
+                      <PasswordField field={field} />
                     </div>
                   )}
                 />
