@@ -1,6 +1,6 @@
-import { DataTable } from "./DataTable";
-import { ChartAreaInteractive } from "./InteractiveChartArea";
-import { SectionCards } from "./SectionCards";
+import { DataTable } from "../../components/modules/dashboard/DataTable";
+import { ChartAreaInteractive } from "../../components/modules/dashboard/InteractiveChartArea";
+import { SectionCards } from "../../components/modules/dashboard/SectionCards";
 
 const data = [
   {
