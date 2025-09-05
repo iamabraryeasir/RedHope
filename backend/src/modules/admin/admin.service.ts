@@ -4,7 +4,7 @@
 import { User } from '../user/user.model';
 import { BloodRequest } from '../blood-request/blood-request.model';
 import { REQUEST_STATUS } from '../blood-request/blood-request.interface';
-import { BLOOD_GROUP } from '../user/user.interface';
+import { BLOOD_GROUP, ROLE } from '../user/user.interface';
 
 /**
  * Get Dashboard Analytics
@@ -28,7 +28,11 @@ const getDashboardAnalytics = async () => {
         todayStats,
     ] = await Promise.all([
         // Total users count (excluding deleted)
-        User.countDocuments({ isDeleted: false }),
+        User.countDocuments({
+            isDeleted: false,
+            role: ROLE.DONOR,
+            isBlocked: false,
+        }),
 
         // Total requests count
         BloodRequest.countDocuments(),
