@@ -23,6 +23,7 @@ import { Form, FormField } from "@/components/ui/form";
  */
 import LoginImage from "@/assets/login-image.jpeg";
 import { PasswordField } from "./PasswordField";
+import { UserRole } from "@/constants/role";
 
 /**
  * Form Schema
@@ -54,9 +55,12 @@ export function LoginForm({
     try {
       const res = await login(loginInfo).unwrap();
 
-      if (res.success) {
+      if (res.success && res.data.user.role === UserRole.admin) {
+        toast.success("Welcome to Admin Dashboard");
+        navigate("/admin");
+      } else if (res.success && res.data.user.isVerified) {
         toast.success("Successfully logged in");
-        navigate("/verify");
+        navigate("/donors");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
