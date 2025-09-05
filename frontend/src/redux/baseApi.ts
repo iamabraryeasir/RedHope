@@ -14,6 +14,6 @@ import axiosBaseQuery from "@/redux/axiosBaseQuery";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: axiosBaseQuery(),
-  tagTypes: ["USER"], // tags
+  tagTypes: ["USER", "ANALYSIS"], // tags
   endpoints: () => ({}),
 });
