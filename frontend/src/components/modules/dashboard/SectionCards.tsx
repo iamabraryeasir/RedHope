@@ -8,18 +8,34 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useAdminAnalysisQuery } from "@/redux/features/admin/admin.api";
 
-export function SectionCards() {
-  const { data } = useAdminAnalysisQuery(null);
+interface SectionCardsProps {
+  totals:
+    | {
+        users: number;
+        requests: number;
+        matched: number;
+        fulfilled: number;
+      }
+    | undefined;
+  today:
+    | {
+        requestsCreated: number;
+        requestsMatched: number;
+        requestsFulfilled: number;
+        requestsCancelled: number;
+      }
+    | undefined;
+}
 
+export function SectionCards({ totals, today }: SectionCardsProps) {
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Total Donors</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data?.data.totals.users}
+            {totals?.users}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -33,7 +49,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Total Request</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data?.data.totals.requests}
+            {totals?.requests}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -48,7 +64,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Total Matched</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data?.data.totals.matched}
+            {totals?.matched}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -62,7 +78,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Total Fulfilled</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data?.data.totals.fulfilled}
+            {totals?.fulfilled}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -77,7 +93,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Blood Requests Today</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data?.data.today.requestsCreated}
+            {today?.requestsCreated}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -91,7 +107,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Blood Matched Today</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data?.data.today.requestsMatched}
+            {today?.requestsMatched}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -105,7 +121,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Req Fulfilled Today</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data?.data.today.requestsFulfilled}
+            {today?.requestsFulfilled}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -119,7 +135,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Req Canceled Today</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data?.data.today.requestsCancelled}
+            {today?.requestsCancelled}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
