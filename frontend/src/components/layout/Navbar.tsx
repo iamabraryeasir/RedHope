@@ -41,6 +41,18 @@ import {
 import { UserRole } from "@/constants/role";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
+import { LogOut } from "lucide-react";
 
 /**
  * Navigation links array to be used in both desktop and mobile menus
@@ -52,7 +64,7 @@ const navigationLinks = [
   { href: "/contact", label: "Contact Us" },
 ];
 
-export default function Component() {
+export default function Navbar() {
   const { data: userData } = useUserInfoQuery(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -183,8 +195,36 @@ export default function Component() {
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>Profile</DropdownMenuItem>
                       <DropdownMenuItem>My Requests</DropdownMenuItem>
-                      <DropdownMenuItem onClick={handleLogout}>
-                        Logout
+                      <DropdownMenuItem asChild>
+                        <AlertDialog>
+                          <AlertDialogTrigger className="pl-2 text-sm w-full text-start">
+                            Logout
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Are you absolutely sure?
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This action cannot be undone. This will
+                                permanently logout from your account and remove
+                                your data from your device.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                asChild
+                                className="ml-2 sm:flex"
+                              >
+                                <Button onClick={handleLogout}>
+                                  <LogOut />
+                                  Logout
+                                </Button>
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
