@@ -6,6 +6,8 @@ import type { IResponse } from "@/types";
 import type {
   ILogin,
   ILoginResponse,
+  ISignupRequest,
+  ISignupResponse,
   IUserInfoResponse,
 } from "@/types/auth.types";
 
@@ -28,6 +30,16 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
+
+    signup: builder.mutation<IResponse<ISignupResponse>, ISignupRequest>({
+      query: (signupDetails) => ({
+        url: "/users/register",
+        method: "POST",
+        data: signupDetails,
+      }),
+      invalidatesTags: ["USER"],
+    }),
+
     userInfo: builder.query<IResponse<IUserInfoResponse>, null>({
       query: () => ({
         url: "/users/me",
@@ -41,5 +53,9 @@ export const authApi = baseApi.injectEndpoints({
 /**
  * Exporting the Hooks
  */
-export const { useLoginMutation, useLogoutMutation, useUserInfoQuery } =
-  authApi;
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useUserInfoQuery,
+  useSignupMutation,
+} = authApi;

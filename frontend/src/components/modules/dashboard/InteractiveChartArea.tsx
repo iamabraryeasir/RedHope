@@ -57,6 +57,34 @@ export function ChartAreaInteractive({
           <p>Blood Group Distribution of all Registered Donors</p>
         </CardFooter>
       </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>All Donors Blood Groups</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig}>
+            <BarChart accessibilityLayer data={allDonorsBloodGroup}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="bloodGroup"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value.slice(0, 3)}
+              />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Bar dataKey="count" fill="var(--color-desktop)" radius={8} />
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+        <CardFooter className="flex-col items-start gap-2 text-sm">
+          <p>Blood Group Distribution of all Registered Donors</p>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
