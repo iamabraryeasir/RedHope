@@ -3,7 +3,6 @@ import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -33,8 +32,7 @@ export function ChartAreaInteractive({
     <div className="w-full grid grid-cols-2 gap-5">
       <Card>
         <CardHeader>
-          <CardTitle>Bar Chart</CardTitle>
-          <CardDescription>January - June 2024</CardDescription>
+          <CardTitle>All Donors Blood Groups</CardTitle>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig}>
