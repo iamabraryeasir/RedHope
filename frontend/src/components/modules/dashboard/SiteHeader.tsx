@@ -51,8 +51,8 @@ export function SiteHeader() {
         <div className="ml-auto flex items-center gap-2 ">
           <ModeToggle />
           <AlertDialog>
-            <AlertDialogTrigger>
-              <Button variant="default" size="sm" className="ml-2 sm:flex">
+            <AlertDialogTrigger asChild className="ml-2 sm:flex">
+              <Button variant="default" size="sm">
                 <LogOut />
                 Logout
               </Button>
@@ -67,13 +67,8 @@ export function SiteHeader() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>
-                  <Button
-                    onClick={handleLogout}
-                    variant="default"
-                    size="sm"
-                    className="ml-2 sm:flex"
-                  >
+                <AlertDialogAction asChild className="ml-2 sm:flex">
+                  <Button onClick={handleLogout}>
                     <LogOut />
                     Logout
                   </Button>
