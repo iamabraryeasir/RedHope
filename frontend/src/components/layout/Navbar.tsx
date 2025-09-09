@@ -1,7 +1,7 @@
 /**
  * Node Modules
  */
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 /**
  * Assets
@@ -23,7 +23,36 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "./ModeToggle";
+import {
+  authApi,
+  useLogoutMutation,
+  useUserInfoQuery,
+} from "@/redux/features/auth/auth.api";
+import { UserRole } from "@/constants/role";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
+import { LogOut } from "lucide-react";
 
 /**
  * Navigation links array to be used in both desktop and mobile menus
@@ -35,7 +64,27 @@ const navigationLinks = [
   { href: "/contact", label: "Contact Us" },
 ];
 
-export default function Component() {
+export default function Navbar() {
+  const { data: userData } = useUserInfoQuery(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [logout] = useLogoutMutation();
+
+  async function handleLogout() {
+    try {
+      const res = await logout(null).unwrap();
+
+      if (res.success) {
+        toast.success("User Logout Successful");
+        dispatch(authApi.util.resetApiState());
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error("Error while logging out");
+      console.log(error);
+    }
+  }
+
   return (
     <header className="border-b px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
@@ -123,9 +172,69 @@ export default function Component() {
           {/* Right side */}
           <div className="flex flex-1 items-center justify-end gap-2">
             <ModeToggle />
-            <Link to="/signup">
-              <Button variant="default">Join Us</Button>
-            </Link>
+
+            {userData?.data.email ? (
+              <>
+                {userData.data.role === UserRole.admin ? (
+                  <Link to="/admin">
+                    <Avatar>
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>RH</AvatarFallback>
+                    </Avatar>
+                  </Link>
+                ) : (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <Avatar>
+                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarFallback>RH</AvatarFallback>
+                      </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="mr-10">
+                      <DropdownMenuLabel>Donors Account</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>My Requests</DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <AlertDialog>
+                          <AlertDialogTrigger className="pl-2 text-sm w-full text-start">
+                            Logout
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Are you absolutely sure?
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This action cannot be undone. This will
+                                permanently logout from your account and remove
+                                your data from your device.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                asChild
+                                className="ml-2 sm:flex"
+                              >
+                                <Button onClick={handleLogout}>
+                                  <LogOut />
+                                  Logout
+                                </Button>
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+              </>
+            ) : (
+              <Link to="/login">
+                <Button variant="default">Login</Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

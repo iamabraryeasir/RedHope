@@ -30,8 +30,8 @@ const getDashboardAnalytics = async () => {
         // Total users count (excluding deleted)
         User.countDocuments({
             isDeleted: false,
-            isBlocked: false,
             role: ROLE.DONOR,
+            isBlocked: false,
         }),
 
         // Total requests count
