@@ -232,7 +232,6 @@ export default function DonorsCountSection() {
           </div>
         </div>
       </div>
-      DonorsCountSection
     </section>
   );
 }
