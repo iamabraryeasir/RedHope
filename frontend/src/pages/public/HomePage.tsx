@@ -14,10 +14,10 @@ export default function HomePage() {
       <ImageSliderSection />
       <HowItWorksSection />
       <CompatibilityGuideSection />
-      <UniversalDonorsSection/>
+      <UniversalDonorsSection />
       <DonorsCountSection />
       <TestimonialSection />
-      <StoriesSection/>
+      <StoriesSection />
     </>
   );
 }
