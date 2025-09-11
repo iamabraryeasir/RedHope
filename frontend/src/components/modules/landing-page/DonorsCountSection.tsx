@@ -98,9 +98,9 @@ export default function DonorsCountSection() {
             </div>
             <div className="text">
               <h3 className="text-[20px] leading-[160%] tracking-[1px]">
-                Sarah M.
+                Emma L.
               </h3>
-              <p className="leading-[180%] tracking-[-0.2px] text-[#0a0915a6]">
+              <p className="leading-[180%] tracking-[-0.2px] ">
                 Age 34, Mother of 2
               </p>
             </div>
@@ -108,7 +108,7 @@ export default function DonorsCountSection() {
           {/* text of blood type */}
           <div className="text mt-5 mx-5 ">
             <h3 className="text-4xl leading-[130%] tracking-[3px] font-semibold">
-              O+
+              B+
             </h3>
             <p className="leading-[180%] tracking-[-0.2px] text-[14px]">
               Blood Type
@@ -136,8 +136,7 @@ export default function DonorsCountSection() {
 
           <div className="locations-info mx-5">
             <div className="location  flex items-center gap-2 mt-2 ">
-              {" "}
-              <MapPin />{" "}
+              <MapPin />
               <p className="text-[12px] leading-[170%]  tracking-[-0.4px]">
                 City General Hospital, Downtown
               </p>
@@ -171,17 +170,17 @@ export default function DonorsCountSection() {
             </div>
             <div className="text">
               <h3 className="text-[20px] leading-[160%] tracking-[1px]">
-                Sarah M.
+                Michael R.
               </h3>
               <p className="leading-[180%] tracking-[-0.2px] text-[#0a0915a6]">
-                Age 34, Mother of 2
+                Age 38
               </p>
             </div>
           </div>
           {/* text of blood type */}
           <div className="text mt-5 mx-5 ">
             <h3 className="text-4xl leading-[130%] tracking-[3px] font-semibold">
-              O+
+              A+
             </h3>
             <p className="leading-[180%] tracking-[-0.2px] text-[#0a0915a6] text-[14px]">
               Blood Type
