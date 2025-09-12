@@ -190,7 +190,7 @@ export default function Navbar() {
                         <AvatarFallback>RH</AvatarFallback>
                       </Avatar>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="mr-10">
+                    <DropdownMenuContent className="mr-0 lg:mr-10">
                       <DropdownMenuLabel>Donors Account</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>Profile</DropdownMenuItem>
