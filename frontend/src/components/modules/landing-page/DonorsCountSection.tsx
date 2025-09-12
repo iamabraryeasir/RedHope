@@ -4,16 +4,16 @@ export default function DonorsCountSection() {
   return (
     <section className=" mt-15 mx-auto sm:max-w-2xl lg:max-w-7xl sm:mx-auto lg:mx-auto">
       <div className="text text-center">
-        <h3 className="leading-[120%]  tracking-[-1.5px] text-2xl font-[500] sm:text-4xl lg:text-[60px] ">
+        <h3 className="leading-[120%]  tracking-[-1.5px] text-4xl font-[500] sm:text-4xl lg:text-[60px] ">
           Lives That Need You Today
         </h3>
-        <p className="text-[#526061] text-[10px] mt-2 sm:text-[15px] lg:text-[18px]">
+        <p className="text-[#526061] text-[14px] mt-2 sm:text-[15px] lg:text-[18px]">
           These patients are counting on donors like you. Every minute matters.
         </p>
       </div>
-      <div className="cards flex flex-col items-center justify-center  mt-10 sm:flex-row flex-wrap gap-10">
+      <div className="cards flex flex-col items-center justify-center  mt-15 sm:flex-row flex-wrap gap-10">
         {/* card1 */}
-        <div className="card h-[400px] w-[320px] bg-[#F7F6F4]  rounded-2xl ">
+        <div className="card h-[400px] w-[320px] bg-[#F7F6F4]  rounded-2xl hover:bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000c4] hover:text-white ">
           {/* user name and pic */}
           <div className="info mt-5 mx-5 flex gap-6 items-center  ">
             <div className="img h-10  w-10  rounded-full ">
@@ -27,7 +27,7 @@ export default function DonorsCountSection() {
               <h3 className="text-[20px] leading-[160%] tracking-[1px]">
                 Sarah M.
               </h3>
-              <p className="leading-[180%] tracking-[-0.2px] text-[#0a0915a6]">
+              <p className="leading-[180%] tracking-[-0.2px] ">
                 Age 34, Mother of 2
               </p>
             </div>
@@ -37,20 +37,20 @@ export default function DonorsCountSection() {
             <h3 className="text-4xl leading-[130%] tracking-[3px] font-semibold">
               O+
             </h3>
-            <p className="leading-[180%] tracking-[-0.2px] text-[#0a0915a6] text-[14px]">
+            <p className="leading-[180%] tracking-[-0.2px]  text-[14px]  ">
               Blood Type
             </p>
           </div>
 
           {/* button */}
           <div className="button  flex items-center justify-center mt-5 ">
-            <button className=" flex items-center justify-between  rounded-2xl w-64 px-5 py-2 text-white  bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000] ">
+            <button className="  flex items-center justify-between  rounded-2xl w-64 px-5 py-2 text-white  bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000]   hover:bg-white  ">
               <div className=" flex justify-start">
                 <p className="text-[16px] leading-[170%]  tracking-[-0.4px]">
                   Donate Now
                 </p>
               </div>
-              <div className="div h-5 w-5 bg-white rounded-full text-black flex items-center justify-end">
+              <div className="div h-5 w-5 bg-white hover:bg-black rounded-full text-black hover:text-white flex items-center justify-end">
                 <ChevronRight />
               </div>
             </button>
@@ -86,7 +86,7 @@ export default function DonorsCountSection() {
           </div>
         </div>
         {/* card2 */}
-        <div className="card text-white h-[400px] w-[320px] bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000c4] rounded-2xl mt-7 sm:mt-0 shadow-lg shadow-black">
+        <div className="h-[400px] w-[320px] bg-[#F7F6F4]  rounded-2xl hover:bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000c4] hover:text-white ">
           {/* user name and pic */}
           <div className="info mt-5 mx-5 flex gap-6 items-center  ">
             <div className="img h-10  w-10  rounded-full ">
@@ -117,13 +117,13 @@ export default function DonorsCountSection() {
 
           {/* button */}
           <div className="button  flex items-center justify-center mt-5 ">
-            <button className=" flex items-center justify-between  rounded-2xl w-64 px-5 py-2 text-black  bg-white ">
+            <button className="  flex items-center justify-between  rounded-2xl w-64 px-5 py-2 text-white  bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000]   hover:bg-white  ">
               <div className=" flex justify-start">
                 <p className="text-[16px] leading-[170%]  tracking-[-0.4px]">
                   Donate Now
                 </p>
               </div>
-              <div className="div h-5 w-5 bg-black rounded-full text-white flex items-center justify-end">
+              <div className="div h-5 w-5 bg-white rounded-full text-black flex items-center justify-end">
                 <ChevronRight />
               </div>
             </button>
@@ -158,7 +158,7 @@ export default function DonorsCountSection() {
           </div>
         </div>
         {/* card3 */}
-        <div className="card h-[400px] w-[320px] bg-[#F7F6F4]  rounded-2xl mt-7 sm:mt-0">
+        <div className="h-[400px] w-[320px] bg-[#F7F6F4]  rounded-2xl hover:bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000c4] hover:text-white ">
           {/* user name and pic */}
           <div className="info mt-5 mx-5 flex gap-6 items-center  ">
             <div className="img h-10  w-10  rounded-full ">
@@ -172,7 +172,7 @@ export default function DonorsCountSection() {
               <h3 className="text-[20px] leading-[160%] tracking-[1px]">
                 Michael R.
               </h3>
-              <p className="leading-[180%] tracking-[-0.2px] text-[#0a0915a6]">
+              <p className="leading-[180%] tracking-[-0.2px]  ">
                 Age 38
               </p>
             </div>
@@ -182,7 +182,7 @@ export default function DonorsCountSection() {
             <h3 className="text-4xl leading-[130%] tracking-[3px] font-semibold">
               A+
             </h3>
-            <p className="leading-[180%] tracking-[-0.2px] text-[#0a0915a6] text-[14px]">
+            <p className="leading-[180%] tracking-[-0.2px]  text-[14px]">
               Blood Type
             </p>
           </div>
