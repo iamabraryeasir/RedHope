@@ -1,10 +1,17 @@
 import { Check } from "lucide-react";
 export default function UniversalDonorsSection() {
   return (
-    <section className="sm:bg-gradient-to-br from-[#F8F8F9] via-[#FFFFFF] to-[#FFF3F3] sm:h-[500px] sm:flex items-center justify-items-center  ">
-      <div className="div mx-auto sm:max-w-2xl lg:max-w-7xl sm:mx-auto lg:mx-auto  sm:flex sm:items-center gap-15 ">
+    <section className="sm:bg-gradient-to-br from-[#F8F8F9] via-[#FFFFFF] to-[#FFF3F3] sm:h-[500px] sm:flex items-center justify-items-center mt-20 ">
+      <div className="div mx-auto sm:max-w-2xl lg:max-w-7xl sm:mx-auto lg:mx-auto  sm:flex sm:items-center gap-15 sm:flex-row-reverse ">
+         <div className="right-of-fulldiv flex justify-center items-center mx-5">
+          <img
+            className="sm:h-50 sm:w-56 lg:h-full lg:w-full "
+            src="src/assets/Blood Guide.png"
+            alt=""
+          />
+        </div>
         <div className="left-of-full-div sm:bg-white rounded-2xl   ">
-          <h2 className="text-black text-[16px] font-semibold px-2 mt-5 leading-[120%] sm:text-[25px] lg:text-[32px] text-center  sm:text-left  sm:mx-10">
+          <h2 className="text-black text-[24px]  font-semibold px-2 mt-5 leading-[120%] sm:text-[25px] lg:text-[32px] text-center  sm:text-left  sm:mx-10">
             Universal Donors & Recipients
           </h2>
           {/* for the O+ */}
@@ -86,13 +93,7 @@ export default function UniversalDonorsSection() {
             </div>
           </div>
         </div>
-        <div className="right-of-fulldiv hidden sm:block  ">
-          <img
-            className="sm:h-50 sm:w-56 lg:h-full lg:w-full "
-            src="src/assets/Blood Guide.png"
-            alt=""
-          />
-        </div>
+       
       </div>
     </section>
   );
