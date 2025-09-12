@@ -21,6 +21,7 @@ import Settings from "@/pages/dashboard/Settings";
 import { withAuth } from "@/lib/withAuth";
 import { UserRole } from "@/constants/role";
 import type { TRole } from "@/types";
+import DonorProfile from "@/pages/dashboard/DonorProfile";
 
 /**
  * Routes
@@ -72,6 +73,10 @@ export const router = createBrowserRouter([
       {
         path: "donors",
         Component: AllDonors,
+      },
+      {
+        path: "donors/:donorId",
+        Component: DonorProfile,
       },
       {
         path: "blood-requests",
