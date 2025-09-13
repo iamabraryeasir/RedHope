@@ -2,10 +2,10 @@ export default function HowItWorksSection() {
   return (
     <section className=" mt-25 mx-auto sm:max-w-2xl lg:max-w-7xl sm:mx-auto lg:mx-auto ">
       <div className="text text-center">
-        <h2 className=" font-[400] text-[60px] leading-[120%] tracking-[-1.5px]">
+        <h2 className=" font-[400]  text-[40px] sm:text-[60px] leading-[120%] tracking-[-1.5px]">
           How it’s work?
         </h2>
-        <p className=" mt-3  text-[18px] leading-[170%] text-[#526061]  ">
+        <p className=" mt-3 mx-2 text-[14px] sm:text-[18px] leading-[170%] text-[#526061]  ">
           Our simple, three-step process connects donors with recipients, <br />{" "}
           ensuring every blood donation reaches those who need it most.
         </p>

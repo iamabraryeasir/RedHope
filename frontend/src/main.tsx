@@ -17,7 +17,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 createRoot(document.getElementById("root")!).render(
   <>
     <ReduxProvider store={store}>
-      <ThemeProvider defaultTheme="system" storageKey="redhope-color-theme">
+      <ThemeProvider defaultTheme="light" storageKey="redhope-color-theme">
         <Toaster position="top-right" />
         <RouterProvider router={router} />
       </ThemeProvider>
