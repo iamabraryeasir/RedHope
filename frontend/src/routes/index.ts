@@ -9,18 +9,19 @@ import { createBrowserRouter } from "react-router";
 import App from "@/App";
 import LoginPage from "@/pages/auth/LoginPage";
 import SignupPage from "@/pages/auth/SignupPage";
-import HomePage from "@/pages/public/HomePage";
-import DonorsPage from "@/pages/public/DonorsPage";
-import AboutPage from "@/pages/public/AboutPage";
-import ContactPage from "@/pages/public/ContactPage";
+import HomePage from "@/pages/nav-pages/HomePage";
+import DonorsPage from "@/pages/nav-pages/DonorsPage";
+import AboutPage from "@/pages/nav-pages/AboutPage";
+import ContactPage from "@/pages/nav-pages/ContactPage";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import AdminAnalysis from "@/pages/dashboard/AdminAnalysis";
 import AllDonors from "@/pages/dashboard/AllDonors";
-import BloodRequests from "@/pages/dashboard/BloodRequests";
+import PendingRequests from "@/pages/dashboard/PendingRequests";
 import Settings from "@/pages/dashboard/Settings";
 import { withAuth } from "@/lib/withAuth";
 import { UserRole } from "@/constants/role";
 import type { TRole } from "@/types";
+import RequestsPage from "@/pages/nav-pages/RequestsPage";
 
 /**
  * Routes
@@ -37,7 +38,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "donors",
-        Component: DonorsPage,
+        Component: withAuth(DonorsPage),
+      },
+      {
+        path: "requests",
+        Component: withAuth(RequestsPage),
       },
       {
         path: "about",
@@ -74,8 +79,8 @@ export const router = createBrowserRouter([
         Component: AllDonors,
       },
       {
-        path: "blood-requests",
-        Component: BloodRequests,
+        path: "pending-requests",
+        Component: PendingRequests,
       },
       {
         path: "settings",

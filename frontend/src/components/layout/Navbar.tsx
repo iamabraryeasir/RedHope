@@ -60,6 +60,7 @@ import { LogOut } from "lucide-react";
 const navigationLinks = [
   { href: "/", label: "Home" },
   { href: "/donors", label: "Donors" },
+  { href: "/requests", label: "Requests" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact Us" },
 ];
