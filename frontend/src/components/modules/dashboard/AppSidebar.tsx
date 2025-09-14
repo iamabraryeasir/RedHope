@@ -37,8 +37,8 @@ const data = {
       icon: IconUsers,
     },
     {
-      title: "Blood Requests",
-      url: "/blood-requests",
+      title: "Pending Requests",
+      url: "/pending-requests",
       icon: IconClipboardList,
     },
     {
@@ -54,7 +54,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
+          <SidebarMenuItem className="cursor-pointer">
             <SidebarMenuButton
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"

@@ -16,7 +16,7 @@ import ContactPage from "@/pages/nav-pages/ContactPage";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import AdminAnalysis from "@/pages/dashboard/AdminAnalysis";
 import AllDonors from "@/pages/dashboard/AllDonors";
-import BloodRequests from "@/pages/dashboard/BloodRequests";
+import PendingRequests from "@/pages/dashboard/PendingRequests";
 import Settings from "@/pages/dashboard/Settings";
 import { withAuth } from "@/lib/withAuth";
 import { UserRole } from "@/constants/role";
@@ -79,8 +79,8 @@ export const router = createBrowserRouter([
         Component: AllDonors,
       },
       {
-        path: "blood-requests",
-        Component: BloodRequests,
+        path: "pending-requests",
+        Component: PendingRequests,
       },
       {
         path: "settings",
