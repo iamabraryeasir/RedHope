@@ -4,7 +4,6 @@ import HeroSection from "@/components/modules/landing-page/HeroSection";
 import HowItWorksSection from "@/components/modules/landing-page/HowItWorksSection";
 import ImageSliderSection from "@/components/modules/landing-page/ImageSliderSection";
 import StoriesSection from "@/components/modules/landing-page/StoriesSection";
-import TestimonialSection from "@/components/modules/landing-page/TestimonialSection";
 import UniversalDonorsSection from "@/components/modules/landing-page/UniversalDonorsSection";
 
 export default function HomePage() {
@@ -16,7 +15,7 @@ export default function HomePage() {
       <CompatibilityGuideSection />
       <UniversalDonorsSection/>
       <DonorsCountSection />
-      <TestimonialSection />
+
       <StoriesSection/>
     </>
   );
