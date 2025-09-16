@@ -15,7 +15,6 @@ export default function HomePage() {
       <CompatibilityGuideSection />
       <UniversalDonorsSection/>
       <DonorsCountSection />
-
       <StoriesSection/>
     </>
   );
