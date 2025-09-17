@@ -3,6 +3,7 @@ import DonorsCountSection from "@/components/modules/landing-page/DonorsCountSec
 import HeroSection from "@/components/modules/landing-page/HeroSection";
 import HowItWorksSection from "@/components/modules/landing-page/HowItWorksSection";
 import ImageSliderSection from "@/components/modules/landing-page/ImageSliderSection";
+import JoinCommunitySection from "@/components/modules/landing-page/JoinCommunitySection";
 import StoriesSection from "@/components/modules/landing-page/StoriesSection";
 import TestimonialSection from "@/components/modules/landing-page/TestimonialSection";
 import UniversalDonorsSection from "@/components/modules/landing-page/UniversalDonorsSection";
@@ -18,6 +19,7 @@ export default function HomePage() {
       <DonorsCountSection />
       <TestimonialSection />
       <StoriesSection />
+      <JoinCommunitySection/>
     </>
   );
 }
