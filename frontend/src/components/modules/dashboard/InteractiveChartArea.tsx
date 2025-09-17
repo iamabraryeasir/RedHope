@@ -49,7 +49,7 @@ export function ChartAreaInteractive({
                 cursor={false}
                 content={<ChartTooltipContent hideLabel />}
               />
-              <Bar dataKey="count" fill="var(--color-desktop)" radius={8} />
+              <Bar dataKey="count" fill="var(--color-primary)" radius={8} />
             </BarChart>
           </ChartContainer>
         </CardContent>
@@ -77,7 +77,7 @@ export function ChartAreaInteractive({
                 cursor={false}
                 content={<ChartTooltipContent hideLabel />}
               />
-              <Bar dataKey="count" fill="var(--color-desktop)" radius={8} />
+              <Bar dataKey="count" fill="var(--color-primary)" radius={8} />
             </BarChart>
           </ChartContainer>
         </CardContent>
