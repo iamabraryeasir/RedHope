@@ -6,9 +6,11 @@ import type { IResponse } from "@/types";
 import type {
   ILogin,
   ILoginResponse,
+  ISendVerificationCode,
   ISignupRequest,
   ISignupResponse,
   IUserInfoResponse,
+  IVerifyOTP,
 } from "@/types/auth.types";
 
 /**
@@ -47,6 +49,22 @@ export const authApi = baseApi.injectEndpoints({
       }),
       providesTags: ["USER"],
     }),
+
+    sendOtp: builder.mutation<IResponse<null>, ISendVerificationCode>({
+      query: (email) => ({
+        url: "/otp/send",
+        method: "POST",
+        data: email,
+      }),
+    }),
+
+    verifyOtp: builder.mutation<IResponse<null>, IVerifyOTP>({
+      query: (email) => ({
+        url: "/otp/verify",
+        method: "POST",
+        data: email,
+      }),
+    }),
   }),
 });
 
@@ -58,4 +76,6 @@ export const {
   useLogoutMutation,
   useUserInfoQuery,
   useSignupMutation,
+  useSendOtpMutation,
+  useVerifyOtpMutation,
 } = authApi;
