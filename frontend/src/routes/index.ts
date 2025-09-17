@@ -23,6 +23,7 @@ import { UserRole } from "@/constants/role";
 import type { TRole } from "@/types";
 import DonorProfile from "@/pages/dashboard/DonorProfile";
 import RequestsPage from "@/pages/nav-pages/RequestsPage";
+import VerifyPage from "@/pages/auth/VerifyPage";
 
 
 /**
@@ -65,6 +66,10 @@ export const router = createBrowserRouter([
   {
     path: "/signup",
     Component: SignupPage,
+  },
+  {
+    path: "/verify",
+    Component: VerifyPage,
   },
 
   // admin dashboard

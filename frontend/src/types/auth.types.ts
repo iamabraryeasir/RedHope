@@ -54,3 +54,12 @@ export interface IUserInfoResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ISendVerificationCode {
+  email: string;
+}
+
+export interface IVerifyOTP {
+  email: string;
+  otp: string;
+}
