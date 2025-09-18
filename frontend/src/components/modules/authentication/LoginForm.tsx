@@ -15,7 +15,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import {
+  useLoginMutation,
+  useUserInfoQuery,
+} from "@/redux/features/auth/auth.api";
 import { Form, FormField } from "@/components/ui/form";
 
 /**
@@ -50,28 +53,35 @@ export function LoginForm({
 
   const navigate = useNavigate();
   const [login] = useLoginMutation();
+  const { refetch } = useUserInfoQuery(null); // 👈 RTK Query refetch
 
   async function onSubmit(loginInfo: z.infer<typeof loginFormSchema>) {
     const toastId = toast.loading("User logging in....");
     try {
       const res = await login(loginInfo).unwrap();
 
-      if (res.success && res.data.user.role === UserRole.admin) {
-        toast.success("Welcome to Admin Dashboard", { id: toastId });
-        navigate("/admin");
-      } else if (res.success && res.data.user.isVerified) {
-        toast.success("Successfully logged in", { id: toastId });
-        navigate("/donors");
+      if (res.success) {
+        // Refetch user info before navigating
+        await refetch();
+
+        if (res.data.user.role === UserRole.admin) {
+          toast.success("Welcome to Admin Dashboard", { id: toastId });
+          navigate("/admin");
+        } else if (res.data.user.isVerified) {
+          toast.success("Successfully logged in", { id: toastId });
+          navigate("/donors");
+        }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      if (error.data.message === "Invalid email or password") {
+      if (error.data?.message === "Invalid email or password") {
         toast.error(error.data.message, { id: toastId });
-      }
-
-      if (error.data.message === "User is not verified") {
+      } else if (error.data?.message === "User is not verified") {
         toast.error("Your account is not verified", { id: toastId });
         navigate("/verify", { state: loginInfo.email });
+      } else {
+        toast.error("Error while logging in", { id: toastId });
+        console.log(error);
       }
     }
   }
@@ -121,9 +131,11 @@ export function LoginForm({
                     </div>
                   )}
                 />
+
                 <Button type="submit" className="w-full">
                   Login
                 </Button>
+
                 <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}
                   <Link to="/signup" className="underline underline-offset-4">
@@ -133,6 +145,7 @@ export function LoginForm({
               </div>
             </form>
           </Form>
+
           <div className="bg-muted relative hidden md:block">
             <img
               src={LoginImage}
@@ -142,6 +155,7 @@ export function LoginForm({
           </div>
         </CardContent>
       </Card>
+
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.
