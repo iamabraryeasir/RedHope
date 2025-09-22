@@ -125,11 +125,11 @@ export default function DonorsPage() {
         <div className="py-10 text-center">Loading...</div>
       ) : (
         <>
-          <div className="py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <section className="py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {donorsData?.data?.map((donor) => (
               <DonorCard key={donor._id} donor={donor} />
             ))}
-          </div>
+          </section>
 
           {/* Pagination */}
           <div className="flex justify-end items-center gap-2 mt-6">

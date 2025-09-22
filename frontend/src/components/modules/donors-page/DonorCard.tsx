@@ -1,11 +1,9 @@
 import type { IDonor } from "@/types/donors.types";
 import { CalendarHeart, Clock, MapPin, MessageCircleMore } from "lucide-react";
 
-
 export default function DonorCard({ donor }: { donor: Partial<IDonor> }) {
   return (
-
-<section className="cards flex flex-col items-center justify-center mt-15 sm:flex-row flex-wrap gap-10"> <div className="group card h-[450px] w-[320px] bg-[#F7F6F4] rounded-2xl hover:bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000c4] hover:text-white transition-all duration-300">
+    <div className="group card  bg-[#F7F6F4] rounded-2xl hover:bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000c4] hover:text-white transition-all duration-300">
       {/* user name and pic */}
       <div className="info mt-5 mx-5 flex gap-6 items-center">
         <div className="img h-10 w-10 rounded-full">
@@ -17,7 +15,7 @@ export default function DonorCard({ donor }: { donor: Partial<IDonor> }) {
         </div>
         <div className="text">
           <h3 className="text-[20px] leading-[160%] tracking-[1px]">
-            {donor.name}
+            {donor.name?.slice(0, 15)}
           </h3>
           <p className="leading-[180%] tracking-[-0.2px] mt-3">
             {donor.donationHistory}
@@ -39,9 +37,7 @@ export default function DonorCard({ donor }: { donor: Partial<IDonor> }) {
       <div className="button flex items-center justify-center mt-5 mx-8  text-white  rounded-4xl bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000] transition-all duration-300">
         <button className="group-hover:bg-white group-hover:text-black w-64 px-5 py-2 flex items-center justify-center gap-5 rounded-2xl  transition-all duration-300">
           <MessageCircleMore />
-          <p className="text-[16px] leading-[170%] tracking-[-0.4px]">
-            Contact
-          </p>
+          <p className="text-base">Contact</p>
         </button>
       </div>
 
@@ -70,8 +66,6 @@ export default function DonorCard({ donor }: { donor: Partial<IDonor> }) {
           </p>
         </div>
       </div>
-    </div></section>
-   
-   
+    </div>
   );
 }
