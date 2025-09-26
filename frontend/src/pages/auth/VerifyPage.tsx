@@ -44,7 +44,7 @@ const FormSchema = z.object({
 export default function VerifyPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [email] = useState(location.state);
+  const [email] = useState<string>(location.state);
   const [confirmed, setConfirmed] = useState(false);
   const [sendOtp] = useSendOtpMutation();
   const [verifyOtp] = useVerifyOtpMutation();
@@ -58,36 +58,39 @@ export default function VerifyPage() {
   });
 
   const handleSendOtp = async () => {
-    const toastId = toast.loading("Sending OTP");
-
     try {
+      const toastId = toast.loading("Sending OTP");
       const res = await sendOtp({ email: email }).unwrap();
 
       if (res.success) {
-        toast.success("OTP Sent", { id: toastId });
+        toast.success("OTP Sent Successfully", { id: toastId });
         setConfirmed(true);
         setTimer(180);
       }
-    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      toast.error(`Error: ${err.message}`);
       console.log(err);
     }
   };
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    const toastId = toast.loading("Verifying OTP");
-    const userInfo: IVerifyOTP = {
-      email,
-      otp: data.pin,
-    };
-
     try {
+      const toastId = toast.loading("Verifying OTP");
+      const userInfo: IVerifyOTP = {
+        email,
+        otp: data.pin,
+      };
+
       const res = await verifyOtp(userInfo).unwrap();
       if (res.success) {
         toast.success("OTP Verified", { id: toastId });
         setConfirmed(true);
         navigate("/login");
       }
-    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      toast.error(`Error: ${err.message}`);
       console.log(err);
     }
   };
@@ -96,7 +99,7 @@ export default function VerifyPage() {
     if (!email) {
       navigate("/");
     }
-  }, [email]);
+  }, [email, navigate]);
 
   useEffect(() => {
     if (!email || !confirmed) {

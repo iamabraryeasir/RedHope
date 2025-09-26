@@ -25,7 +25,7 @@ const generateOtp = (length = 6) => {
 /**
  * Send OTP Service
  */
-const sendOtp = async (email: string, name: string) => {
+const sendOtp = async (email: string) => {
     const user = await User.findOne({ email });
     if (!user) {
         throw new AppError(
@@ -51,9 +51,9 @@ const sendOtp = async (email: string, name: string) => {
 
     await sendEmail({
         to: email,
-        subject: 'PH Tour Verification OTP',
+        subject: 'RedHope Donor Verification OTP',
         templateName: 'otp',
-        templateData: { name, otp },
+        templateData: { otp },
     });
 };
 
