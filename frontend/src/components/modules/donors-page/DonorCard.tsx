@@ -35,7 +35,7 @@ export default function DonorCard({ donor }: { donor: Partial<IDonor> }) {
 
       {/* button */}
       <div className="button flex items-center justify-center mt-5 mx-8  text-white  rounded-4xl bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000] transition-all duration-300">
-        <button className="group-hover:bg-white group-hover:text-black w-64 px-5 py-2 flex items-center justify-center gap-5 rounded-2xl  transition-all duration-300">
+        <button className="group-hover:bg-white group-hover:text-black rounded-4xl w-64 px-5 py-3 flex items-center justify-center gap-5   transition-all duration-300">
           <MessageCircleMore />
           <p className="text-base">Contact</p>
         </button>
