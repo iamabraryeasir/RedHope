@@ -16,9 +16,7 @@ import { OtpService } from './otp.service';
 const sendOtp = catchAsync(async (req: Request, res: Response) => {
     let userData = req.body;
 
-    userData.name = userData.name || 'Donor';
-
-    await OtpService.sendOtp(userData.email, userData.name);
+    await OtpService.sendOtp(userData.email);
 
     sendResponse(res, {
         statusCode: 200,
