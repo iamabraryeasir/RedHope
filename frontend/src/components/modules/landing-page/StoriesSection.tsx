@@ -15,7 +15,7 @@ export default function StoriesSection() {
       {/*/////////////////////////////////////  cards1 */}
 
       <Marquee direction={"right"} pauseOnHover={true} autoFill={true}>
-        <div className="cards mx-5 flex flex-row gap-5 mt-20 ">
+        <div className="cards mx-5 flex flex-row gap-5 my-5 sm:my-20 ">
           {/* card 1 */}
           <div className="card h-40 w-52 sm:h-55 sm:w-70 lg:h-62 lg:w-90 bg-white  shadow-lg  rounded-lg ">
             <div className="information mx-5 flex flex-row mt-4 gap-5">
@@ -113,7 +113,7 @@ export default function StoriesSection() {
 
       {/* ////////////////////////////////////////////////////////cards 2 */}
       <Marquee pauseOnHover={true} autoFill={true}>
-        <div className="cards mx-5 flex flex-row gap-5 mt-20 ">
+        <div className="cards mx-5 flex flex-row gap-5 my-5 sm:my-20 ">
           {/* card 1 */}
           <div className="card h-40 w-52 sm:h-55 sm:w-70 lg:h-62 lg:w-90 bg-white  shadow-lg  rounded-lg ">
             <div className="information mx-5 flex flex-row mt-4 gap-5">

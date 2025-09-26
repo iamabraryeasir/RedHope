@@ -172,9 +172,7 @@ export default function DonorsCountSection() {
               <h3 className="text-[20px] leading-[160%] tracking-[1px]">
                 Michael R.
               </h3>
-              <p className="leading-[180%] tracking-[-0.2px]  ">
-                Age 38
-              </p>
+              <p className="leading-[180%] tracking-[-0.2px]  ">Age 38</p>
             </div>
           </div>
           {/* text of blood type */}
