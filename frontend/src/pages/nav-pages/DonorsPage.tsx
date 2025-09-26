@@ -38,8 +38,8 @@ export default function DonorsPage() {
   const { data: donorsData, isLoading } = useGetDonorsQuery(queryParams);
 
   return (
-    <section className="max-w-7xl mx-auto py-5">
-      <div className="w-full flex items-center justify-between">
+    <section className=" py-5  mx-5 sm:max-w-2xl lg:max-w-7xl sm:mx-auto lg:mx-auto ">
+      <div className="w-full flex flex-col sm:flex-row gap-5 items-center justify-between">
         <div>
           <h1 className="font-semibold text-3xl">Find A Donor</h1>
           <p>Connect with available blood donors in your area</p>
@@ -47,7 +47,7 @@ export default function DonorsPage() {
 
         <div>
           <Link to="/signup">
-            <Button className="cursor-pointer">
+            <Button className="cursor-pointer  bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000] rounded-3xl h-13 w-48 ">
               <Plus />
               Become a Donor
             </Button>
@@ -56,12 +56,12 @@ export default function DonorsPage() {
       </div>
 
       {/* Filters */}
-      <div className="mt-6 grid grid-cols-4 gap-4">
+      <div className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
         <Input
           placeholder="Search donors..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-xs w-full"
+          className="sm:max-w-xs w-full"
         />
 
         <Select value={bloodGroup} onValueChange={(val) => setBloodGroup(val)}>
@@ -125,11 +125,11 @@ export default function DonorsPage() {
         <div className="py-10 text-center">Loading...</div>
       ) : (
         <>
-          <div className="py-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <section className="py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {donorsData?.data?.map((donor) => (
               <DonorCard key={donor._id} donor={donor} />
             ))}
-          </div>
+          </section>
 
           {/* Pagination */}
           <div className="flex justify-end items-center gap-2 mt-6">
