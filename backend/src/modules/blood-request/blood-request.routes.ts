@@ -92,4 +92,10 @@ router.get(
     BloodRequestController.getBloodRequestById,
 );
 
+router.delete(
+    '/:id',
+    checkAuth(ROLE.ADMIN),
+    BloodRequestController.deleteBloodRequest,
+);
+
 export const BloodRequestRouter = router;

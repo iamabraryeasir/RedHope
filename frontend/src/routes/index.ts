@@ -23,80 +23,84 @@ import { UserRole } from "@/constants/role";
 import type { TRole } from "@/types";
 import DonorProfile from "@/pages/dashboard/DonorProfile";
 import RequestsPage from "@/pages/nav-pages/RequestsPage";
+import CreateRequest from "@/pages/nav-pages/CreateRequest";
 import VerifyPage from "@/pages/auth/VerifyPage";
-
 
 /**
  * Routes
  */
 export const router = createBrowserRouter([
-  // public routes
-  {
-    path: "/",
-    Component: App,
-    children: [
-      {
-        index: true,
-        Component: HomePage,
-      },
-      {
-        path: "donors",
-        Component: withAuth(DonorsPage),
-      },
-      {
-        path: "requests",
-        Component: withAuth(RequestsPage),
-      },
-      {
-        path: "about",
-        Component: AboutPage,
-      },
-      {
-        path: "contact",
-        Component: ContactPage,
-      },
-    ],
-  },
+    // public routes
+    {
+        path: "/",
+        Component: App,
+        children: [
+            {
+                index: true,
+                Component: HomePage,
+            },
+            {
+                path: "donors",
+                Component: withAuth(DonorsPage),
+            },
+            {
+                path: "requests",
+                Component: withAuth(RequestsPage),
+            },
+            {
+                path: "requests/create-new-request",
+                Component: withAuth(CreateRequest),
+            },
+            {
+                path: "about",
+                Component: AboutPage,
+            },
+            {
+                path: "contact",
+                Component: ContactPage,
+            },
+        ],
+    },
 
-  // auth
-  {
-    path: "/login",
-    Component: LoginPage,
-  },
-  {
-    path: "/signup",
-    Component: SignupPage,
-  },
-  {
-    path: "/verify",
-    Component: VerifyPage,
-  },
+    // auth
+    {
+        path: "/login",
+        Component: LoginPage,
+    },
+    {
+        path: "/signup",
+        Component: SignupPage,
+    },
+    {
+        path: "/verify",
+        Component: VerifyPage,
+    },
 
-  // admin dashboard
-  {
-    path: "/admin",
-    Component: withAuth(DashboardLayout, UserRole.admin as Partial<TRole>),
-    children: [
-      {
-        index: true,
-        Component: AdminAnalysis,
-      },
-      {
-        path: "donors",
-        Component: AllDonors,
-      },
-      {
-        path: "donors/:donorId",
-        Component: DonorProfile,
-      },
-      {
-        path: "pending-requests",
-        Component: PendingRequests,
-      },
-      {
-        path: "settings",
-        Component: Settings,
-      },
-    ],
-  },
+    // admin dashboard
+    {
+        path: "/admin",
+        Component: withAuth(DashboardLayout, UserRole.admin as Partial<TRole>),
+        children: [
+            {
+                index: true,
+                Component: AdminAnalysis,
+            },
+            {
+                path: "donors",
+                Component: AllDonors,
+            },
+            {
+                path: "donors/:donorId",
+                Component: DonorProfile,
+            },
+            {
+                path: "pending-requests",
+                Component: PendingRequests,
+            },
+            {
+                path: "settings",
+                Component: Settings,
+            },
+        ],
+    },
 ]);

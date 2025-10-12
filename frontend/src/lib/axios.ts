@@ -21,6 +21,39 @@ export const axiosInstance = axios.create({
  */
 axiosInstance.interceptors.request.use(
   function (config) {
+    try {
+      // Defensive: Normalize urgency for outgoing requests to /requests
+      if (
+        config &&
+        config.url &&
+        config.method &&
+        config.method.toString().toLowerCase() === "post" &&
+        config.url.toString().includes("/requests")
+      ) {
+        interface ReqData {
+          urgency?: unknown;
+          [k: string]: unknown;
+        }
+
+        const data = (config as AxiosRequestConfig & { data?: ReqData }).data;
+        if (data && typeof data === "object") {
+          const raw = data.urgency;
+          if (raw !== undefined) {
+            let urgency = String(raw).trim().toUpperCase();
+            if (urgency === "MEDIUM") urgency = "NORMAL";
+            const allowed = ["LOW", "NORMAL", "HIGH", "EMERGENCY"];
+            if (!allowed.includes(urgency)) urgency = "NORMAL";
+            (config as AxiosRequestConfig & { data?: ReqData }).data = {
+              ...data,
+              urgency,
+            };
+          }
+        }
+      }
+    } catch (e) {
+      // ignore - don't block request on normalization errors
+  console.debug("axios request normalization failed", e);
+    }
     return config;
   },
   function (error) {

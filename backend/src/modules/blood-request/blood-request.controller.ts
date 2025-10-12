@@ -226,6 +226,25 @@ const getBloodRequestById = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+/**
+ * Delete Blood Request (Admin Only)
+ */
+const deleteBloodRequest = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const userRole = req?.user?.role;
+
+    const deletedRequest = await BloodRequestService.deleteBloodRequest(
+        id,
+        userRole,
+    );
+
+    sendResponse(res, {
+        statusCode: httpCodes.OK,
+        message: 'Blood request deleted successfully',
+        data: deletedRequest,
+    });
+});
+
 export const BloodRequestController = {
     newBloodRequest,
     getAllBloodRequests,
@@ -238,4 +257,5 @@ export const BloodRequestController = {
     getBloodRequestResponders,
     matchBloodRequestDonor,
     getBloodRequestById,
+    deleteBloodRequest,
 };
