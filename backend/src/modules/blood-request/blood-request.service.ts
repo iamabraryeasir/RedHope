@@ -5,10 +5,7 @@
 /**
  * Local Modules
  */
-import {
-    IBloodRequest,
-    REQUEST_STATUS,
-} from './blood-request.interface';
+import { IBloodRequest, REQUEST_STATUS } from './blood-request.interface';
 import { BloodRequest } from './blood-request.model';
 import { QueryBuilder } from '../../utils/QueryBuilder';
 import { AppError } from '../../errorHelpers/AppError';
@@ -280,7 +277,10 @@ const getBloodRequestResponders = async (
 
     // Return blood request with populated responders (minimal fields)
     const bloodRequestWithResponders = await BloodRequest.findById(requestId)
-        .populate('responders', 'name email bloodGroup city district phoneNumber')
+        .populate(
+            'responders',
+            'name email bloodGroup city district phoneNumber',
+        )
         .populate('createdBy', 'name email')
         .lean();
 
@@ -344,12 +344,15 @@ const matchBloodRequestDonor = async (
     // Set matched donor and update status
     bloodRequest.matchedDonor = donorUserId as any;
     bloodRequest.status = REQUEST_STATUS.MATCHED;
-    
+
     await bloodRequest.save();
 
     return await BloodRequest.findById(requestId)
         .populate('createdBy', 'name email')
-        .populate('matchedDonor', 'name email phoneNumber bloodGroup city district')
+        .populate(
+            'matchedDonor',
+            'name email phoneNumber bloodGroup city district',
+        )
         .populate('responders', 'name email bloodGroup')
         .lean();
 };
@@ -362,6 +365,35 @@ const getBloodRequestById = async (id: string) => {
         .populate('createdBy', 'name')
         .lean();
     return bloodRequest;
+};
+
+/**
+ * Delete Blood Request (Admin Only)
+ */
+const deleteBloodRequest = async (requestId: string, userRole: string) => {
+    // Only admins can delete blood requests
+    if (userRole !== 'ADMIN') {
+        throw new AppError(
+            httpCodes.FORBIDDEN,
+            'Only administrators can delete blood requests',
+        );
+    }
+
+    const bloodRequest = await BloodRequest.findById(requestId);
+
+    if (!bloodRequest) {
+        throw new AppError(httpCodes.NOT_FOUND, 'Blood request not found');
+    }
+
+    // For auditing, get request details before deletion
+    const requestDetails = await BloodRequest.findById(requestId)
+        .populate('createdBy', 'name email')
+        .lean();
+
+    // Delete the blood request
+    await BloodRequest.findByIdAndDelete(requestId);
+
+    return requestDetails;
 };
 
 /**
@@ -379,4 +411,5 @@ export const BloodRequestService = {
     getBloodRequestResponders,
     matchBloodRequestDonor,
     getBloodRequestById,
+    deleteBloodRequest,
 };

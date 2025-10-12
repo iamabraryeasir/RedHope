@@ -12,8 +12,8 @@ import axiosBaseQuery from "@/redux/axiosBaseQuery";
  * Configure Base API
  */
 export const baseApi = createApi({
-  reducerPath: "baseApi",
-  baseQuery: axiosBaseQuery(),
-  tagTypes: ["USER", "ANALYSIS", "DONORS"], // tags
-  endpoints: () => ({}),
+    reducerPath: "baseApi",
+    baseQuery: axiosBaseQuery(),
+    tagTypes: ["USER", "ANALYSIS", "DONORS", "REQUESTS"], // tags
+    endpoints: () => ({}),
 });

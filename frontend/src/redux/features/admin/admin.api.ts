@@ -10,15 +10,15 @@ import type { IAdminAnalysisResponse } from "@/types/admin.types";
  */
 
 export const adminApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
-    adminAnalysis: builder.query<IResponse<IAdminAnalysisResponse>, null>({
-      query: () => ({
-        url: "/admin/analytics/dashboard",
-        method: "GET",
-      }),
-      providesTags: ["ANALYSIS"],
+    endpoints: (builder) => ({
+        adminAnalysis: builder.query<IResponse<IAdminAnalysisResponse>, null>({
+            query: () => ({
+                url: "/admin/analytics/dashboard",
+                method: "GET",
+            }),
+            providesTags: ["ANALYSIS"],
+        }),
     }),
-  }),
 });
 
 /**
