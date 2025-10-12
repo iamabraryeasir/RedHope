@@ -22,7 +22,7 @@ export default function TeamCard({
                     </a>
                 </div>
 
-                <img src={image} alt="" className="w-full" />
+                <img src={image} alt="" className="w-full rounded-3xl" />
 
                 <h3 className="absolute bottom-8 left-2 w-50 py-5 font-[600] text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl z-30">
                     {name}

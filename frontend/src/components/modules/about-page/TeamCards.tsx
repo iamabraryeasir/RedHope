@@ -1,4 +1,7 @@
-import teamImage1 from "../../../assets/about-us-images/abrar pic.png";
+import teamImage1 from "../../../assets/about-us-images/abrar-pic.png";
+import teamImage2 from "../../../assets/about-us-images/nafiz-pic.png";
+import teamImage3 from "../../../assets/about-us-images/rudra-kaiser-linkedin.png";
+import teamImage4 from "../../../assets/about-us-images/supta-pic.png";
 import TeamCard from "./TeamCard";
 
 const teamMembers = [
@@ -9,22 +12,22 @@ const teamMembers = [
         image: teamImage1,
     },
     {
-        name: "A. K. M. Nafiz",
+        name: "A. K. M. Nafiz Ibn Nasim",
         linkedLink: "",
         expertise: "Frontend",
-        image: teamImage1,
+        image: teamImage2,
     },
     {
         name: "Rudra Kaiser",
         linkedLink: "",
         expertise: "Frontend",
-        image: teamImage1,
+        image: teamImage3,
     },
     {
         name: "Supta Bowl",
         linkedLink: "",
         expertise: "UI/UX Designer",
-        image: teamImage1,
+        image: teamImage4,
     },
 ];
 
