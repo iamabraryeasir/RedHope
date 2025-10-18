@@ -2,6 +2,8 @@ import type { IDonor } from "@/types/donors.types";
 import { CalendarHeart, Clock, MapPin, MessageCircleMore } from "lucide-react";
 
 export default function DonorCard({ donor }: { donor: Partial<IDonor> }) {
+  console.log({donor});
+  
   return (
     <div className="group card  bg-[#F7F6F4] rounded-2xl hover:bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000c4] hover:text-white transition-all duration-300">
       {/* user name and pic */}
