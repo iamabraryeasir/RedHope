@@ -41,6 +41,7 @@ const navigationLinks = [
 export default function Navbar() {
   const { data, error } = useUserInfoQuery(null);
   const userData = error ? null : data;
+  console.log({ userData });
 
   return (
     <header className="border-b px-4 md:px-6">
