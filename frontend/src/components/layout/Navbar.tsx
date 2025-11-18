@@ -38,6 +38,7 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
+
     const { data, error } = useUserInfoQuery(null);
     const userData = error ? null : data;
 
