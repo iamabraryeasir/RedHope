@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router";
 
 export default function HeroSection() {
   return (
@@ -12,15 +13,21 @@ export default function HeroSection() {
         in need.
       </p>
       <div className="buttons  gap-5 mt-10  flex flex-col sm:flex-row items-center justify-center   ">
-        <button className="flex items-center  mr-3 shadow-lg  shadow-black bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000] px-7 py-4  rounded-4xl text-white text-[12px] sm:text-[16px] font-[500]  ">
+        <Link
+          to="/donors"
+          className="flex items-center  mr-3 shadow-lg  shadow-black bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000] px-7 py-4  rounded-4xl text-white text-[12px] sm:text-[16px] font-[500]  "
+        >
           Find a Donor Now{" "}
           <div className="bg-white rounded-full text-black  p-1 ml-5">
             <ArrowRight />
           </div>
-        </button>
-        <button className="bg-white border-[1px] shadow-lg   shadow-black  border-black px-18 py-4 rounded-4xl text-[12px] sm:text-[16px] font-[500] ">
+        </Link>
+        <Link
+          to="/about"
+          className="bg-white border-[1px] shadow-lg   shadow-black  border-black px-18 py-4 rounded-4xl text-[12px] sm:text-[16px] font-[500] "
+        >
           Explore Us
-        </button>
+        </Link>
       </div>
       <div className="info-of-donations  mt-8 flex flex-row gap-0 justify-center items-center ">
         <div className=" left flex flex-row  relative bg-amber-950  ">

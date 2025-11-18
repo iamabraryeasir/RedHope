@@ -19,6 +19,10 @@ interface DatePickerFieldProps {
 export function DatePickerField({ field }: DatePickerFieldProps) {
   const [open, setOpen] = React.useState(false);
 
+  // Get current date without time component (set to midnight to make it usable for comparison)
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0); // Set the time to midnight to prevent any partial date issues
+
   return (
     <div className="flex flex-col gap-3 w-full">
       <Label htmlFor="dateOfBirth" className="px-1">
@@ -42,6 +46,7 @@ export function DatePickerField({ field }: DatePickerFieldProps) {
             mode="single"
             selected={field.value ? new Date(field.value) : undefined}
             captionLayout="dropdown"
+            disabled={(date) => date > currentDate}
             onSelect={(date) => {
               field.onChange(date);
               setOpen(false);

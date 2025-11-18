@@ -20,24 +20,33 @@ import PhoneAccessLog from '../phone-access-log/phone-access-log.model';
  * Register User
  */
 const registerUser = async (payload: Partial<IUser>) => {
-    const { email, password, ...rest } = payload;
+    const { email, password, dateOfBirth, ...rest } = payload;
 
-    // check if is user already registered
+    // Check if the user already exists
     const ifUserExists = await User.findOne({ email });
     if (ifUserExists) {
         throw new AppError(httpCodes.BAD_REQUEST, 'User already exists');
     }
 
-    // hashing the password
+    // Calculate age from date of birth
+    const age = dateOfBirth
+        ? new Date().getFullYear() - new Date(dateOfBirth).getFullYear()
+        : 0;
+
+    // Set availabilityStatus based on age
+    const availabilityStatus = age < 18 ? 'NOT_AVAILABLE' : 'AVAILABLE';
+
+    // Hashing the password
     const hashedPassword = await bcrypt.hash(
         password as string,
         config.BCRYPT_SALT_ROUND,
     );
 
-    // saving the data to database
+    // Saving the data to the database
     const newUser = await User.create({
         email,
         password: hashedPassword,
+        availabilityStatus,
         ...rest,
     });
 
