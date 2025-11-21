@@ -20,13 +20,15 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
-import { LogOut } from "lucide-react";
-import { toast } from "sonner";
+import { User, LogOut } from "lucide-react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
 import type { IUserInfoResponse } from "@/types/auth.types";
 import type { IResponse } from "@/types";
 import { UserRole } from "@/constants/role";
+import { useState } from "react";
+import ProfileModal from "./ProfileModal";
 
 interface IProps {
   userData: IResponse<IUserInfoResponse>;
@@ -35,7 +37,17 @@ interface IProps {
 export default function NavUserIcon({ userData }: IProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
   const [logout] = useLogoutMutation();
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
+  };
 
   async function handleLogout() {
     try {
@@ -43,13 +55,12 @@ export default function NavUserIcon({ userData }: IProps) {
 
       if (res.success) {
         dispatch(authApi.util.resetApiState());
-
-        toast.success("User Logout Successful");
+        toast.success("Logged out successfully");
+        setIsLogoutDialogOpen(false);
         navigate("/");
       }
     } catch (error) {
       toast.error("Error while logging out");
-      console.log(error);
     }
   }
 
@@ -57,53 +68,79 @@ export default function NavUserIcon({ userData }: IProps) {
     <>
       {userData.data.role === UserRole.admin ? (
         <Link to="/admin">
-          <Avatar>
+          <Avatar className="cursor-pointer hover:opacity-80 transition-opacity">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>RH</AvatarFallback>
           </Avatar>
         </Link>
       ) : (
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>RH</AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="mr-0 lg:mr-10">
-            <DropdownMenuLabel>Donors Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>My Requests</DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <AlertDialog>
-                <AlertDialogTrigger className="pl-2 text-sm w-full text-start">
-                  Logout
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full h-10 w-10 overflow-hidden"
+              >
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback className="text-xs font-bold">
+                    {getInitials(userData.data.name)}
+                  </AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuLabel className="flex items-center gap-2">
+                <User className="h-4 w-4" />
+                {userData.data.name}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => setIsProfileOpen(true)}>
+                View Profile
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <AlertDialog
+                open={isLogoutDialogOpen}
+                onOpenChange={setIsLogoutDialogOpen}
+              >
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem
+                    className="text-red-600 cursor-pointer"
+                    onSelect={(e) => e.preventDefault()}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure?
-                    </AlertDialogTitle>
+                    <AlertDialogTitle>Logout Confirmation</AlertDialogTitle>
                     <AlertDialogDescription>
-                      This action cannot be undone. This will permanently logout
-                      from your account and remove your data from your device.
+                      Are you sure you want to logout? You'll be redirected to
+                      the home page.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction asChild className="ml-2 sm:flex">
-                      <Button onClick={handleLogout}>
-                        <LogOut />
-                        Logout
-                      </Button>
+                    <AlertDialogAction
+                      onClick={handleLogout}
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    >
+                      Logout
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <ProfileModal
+            isOpen={isProfileOpen}
+            onOpenChange={setIsProfileOpen}
+            userData={userData.data}
+          />
+        </>
       )}
     </>
   );

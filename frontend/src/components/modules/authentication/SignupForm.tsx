@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { PasswordField } from "./PasswordField";
 import { useSignupMutation } from "@/redux/features/auth/auth.api";
+import type { ISignupRequest } from "@/types/auth.types";
 
 import {
   Select,
@@ -36,11 +37,26 @@ import { DatePickerField } from "./DatePickerField";
 const signupFormSchema = z.object({
   name: z.string().min(3, "Name is required"),
   email: z.string().email("Invalid email"),
-  phoneNumber: z.string().min(11, "Phone number must be valid"),
+  phoneNumber: z
+    .string()
+    .min(1, "Phone number is required")
+    .refine(
+      (phone) => /^\d+$/.test(phone),
+      "Phone number must contain only digits"
+    )
+    .refine(
+      (phone) => phone.length === 11,
+      "Phone number must be exactly 11 digits"
+    ),
   password: z.string().min(8, "Password must be at least 8 characters"),
   bloodGroup: z.enum(["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"]),
   gender: z.enum(["MALE", "FEMALE", "OTHER"]),
-  dateOfBirth: z.date("Date of birth is required"),
+  dateOfBirth: z
+    .date()
+    .refine(
+      (date) => date !== null && date !== undefined,
+      "Date of birth is required"
+    ),
   district: z.string().min(1, "District is required"),
   city: z.string().min(1, "City is required"),
   thana: z.string().min(1, "Thana is required"),
@@ -70,9 +86,30 @@ export function SignupForm() {
     const toastId = toast.loading("Creating account...");
 
     try {
-      const payload = {
-        ...values,
-        dateOfBirth: values.dateOfBirth.toISOString(), // ✅ convert Date → string
+      // Validate dateOfBirth is not null/undefined
+      if (!values.dateOfBirth) {
+        toast.error("Date of birth is required", { id: toastId });
+        return;
+      }
+
+      // Verify dateOfBirth is a valid Date object
+      if (!(values.dateOfBirth instanceof Date)) {
+        toast.error("Invalid date of birth format", { id: toastId });
+        return;
+      }
+
+      // Cast to ISignupRequest with proper dateOfBirth conversion
+      const payload: ISignupRequest = {
+        name: values.name,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+        password: values.password,
+        bloodGroup: values.bloodGroup,
+        gender: values.gender,
+        dateOfBirth: values.dateOfBirth.toISOString(), // ✅ convert Date → ISO string
+        district: values.district,
+        city: values.city,
+        thana: values.thana,
       };
 
       const res = await signup(payload).unwrap();
@@ -85,7 +122,29 @@ export function SignupForm() {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error(error?.data?.message || "Signup failed", { id: toastId });
+      let errorMessage = "Signup failed";
+
+      // Handle validation errors from backend
+      if (error?.data?.errors && typeof error.data.errors === "object") {
+        const errorMessages = Object.entries(error.data.errors)
+          .map(([field, messages]: [string, any]) => {
+            if (Array.isArray(messages)) {
+              return `${field}: ${messages.join(", ")}`;
+            }
+            return `${field}: ${messages?.message || messages}`;
+          })
+          .join("\n");
+        errorMessage = errorMessages;
+      } else if (error?.data?.message) {
+        errorMessage = error.data.message;
+      } else if (error?.error) {
+        errorMessage = error.error;
+      }
+
+      toast.error(errorMessage, {
+        id: toastId,
+        duration: 5000,
+      });
     }
   }
 
@@ -225,7 +284,7 @@ export function SignupForm() {
                 control={form.control}
                 name="dateOfBirth"
                 render={({ field }) => (
-                  <FormItem >
+                  <FormItem>
                     <FormControl>
                       <DatePickerField field={field} />
                     </FormControl>
