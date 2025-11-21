@@ -46,6 +46,7 @@ const registerUser = async (payload: Partial<IUser>) => {
     const newUser = await User.create({
         email,
         password: hashedPassword,
+        dateOfBirth,
         availabilityStatus,
         ...rest,
     });

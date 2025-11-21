@@ -32,7 +32,7 @@ import { Dot } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 import z from "zod";
 
 const FormSchema = z.object({
@@ -46,9 +46,10 @@ export default function VerifyPage() {
   const navigate = useNavigate();
   const [email] = useState<string>(location.state);
   const [confirmed, setConfirmed] = useState(false);
-  const [sendOtp] = useSendOtpMutation();
-  const [verifyOtp] = useVerifyOtpMutation();
-  const [timer, setTimer] = useState(5);
+  const [sendOtp, { isLoading: isSendingOtp }] = useSendOtpMutation();
+  const [verifyOtp, { isLoading: isVerifyingOtp }] = useVerifyOtpMutation();
+  const [timer, setTimer] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -59,24 +60,32 @@ export default function VerifyPage() {
 
   const handleSendOtp = async () => {
     try {
-      const toastId = toast.loading("Sending OTP");
+      const toastId = toast.loading("Sending OTP...");
       const res = await sendOtp({ email: email }).unwrap();
 
       if (res.success) {
-        toast.success("OTP Sent Successfully", { id: toastId });
+        toast.success("OTP sent successfully! Check your email.", {
+          id: toastId,
+        });
         setConfirmed(true);
         setTimer(180);
+        form.reset();
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      toast.error(`Error: ${err.message}`);
-      console.log(err);
+      const errorMessage =
+        err?.data?.message || err?.message || "Failed to send OTP";
+      toast.error(errorMessage);
     }
   };
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    const toastId = toast.loading("Verifying OTP...");
+
     try {
-      const toastId = toast.loading("Verifying OTP");
       const userInfo: IVerifyOTP = {
         email,
         otp: data.pin,
@@ -84,14 +93,18 @@ export default function VerifyPage() {
 
       const res = await verifyOtp(userInfo).unwrap();
       if (res.success) {
-        toast.success("OTP Verified", { id: toastId });
+        toast.success("Email verified successfully!", { id: toastId });
         setConfirmed(true);
-        navigate("/login");
+        setTimeout(() => navigate("/login"), 1500);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      toast.error(`Error: ${err.message}`);
-      console.log(err);
+      const errorMessage =
+        err?.data?.message || err?.message || "Failed to verify OTP";
+      toast.error(errorMessage, { id: toastId });
+      form.reset();
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -102,7 +115,7 @@ export default function VerifyPage() {
   }, [email, navigate]);
 
   useEffect(() => {
-    if (!email || !confirmed) {
+    if (!confirmed || timer === 0) {
       return;
     }
 
@@ -111,16 +124,19 @@ export default function VerifyPage() {
     }, 1000);
 
     return () => clearInterval(timerId);
-  }, [email, confirmed]);
+  }, [confirmed, timer]);
 
   return (
-    <div className="grid place-content-center h-screen">
+    <div className="grid place-content-center min-h-screen px-4">
       {confirmed ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl">Verify your email address</CardTitle>
-            <CardDescription>
-              Please enter the 6-digit code we sent to <br /> {email}
+        <Card className="w-full min-w-md shadow-lg">
+          <CardHeader className="space-y-3">
+            <CardTitle className="text-2xl font-bold">
+              Verify your email
+            </CardTitle>
+            <CardDescription className="text-base">
+              We sent a 6-digit code to <br />
+              <span className="font-semibold text-foreground">{email}</span>
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -128,16 +144,20 @@ export default function VerifyPage() {
               <form
                 id="otp-form"
                 onSubmit={form.handleSubmit(onSubmit)}
-                className=" space-y-6"
+                className="space-y-6"
               >
                 <FormField
                   control={form.control}
                   name="pin"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>One-Time Password</FormLabel>
+                      <FormLabel>Enter OTP</FormLabel>
                       <FormControl>
-                        <InputOTP maxLength={6} {...field}>
+                        <InputOTP
+                          maxLength={6}
+                          {...field}
+                          disabled={isSubmitting || isVerifyingOtp}
+                        >
                           <InputOTPGroup>
                             <InputOTPSlot index={0} />
                           </InputOTPGroup>
@@ -159,20 +179,34 @@ export default function VerifyPage() {
                           </InputOTPGroup>
                         </InputOTP>
                       </FormControl>
-                      <FormDescription>
+                      <FormDescription className="flex items-center justify-between pt-2">
                         <Button
                           onClick={handleSendOtp}
                           type="button"
                           variant="link"
-                          disabled={timer !== 0}
-                          className={cn("p-0 m-0", {
+                          disabled={timer !== 0 || isSendingOtp}
+                          className={cn("p-0 m-0 h-auto", {
                             "cursor-pointer": timer === 0,
-                            "text-gray-500": timer !== 0,
+                            "text-muted-foreground": timer !== 0,
                           })}
                         >
-                          Resent OPT:{" "}
-                        </Button>{" "}
-                        {timer}
+                          {isSendingOtp && (
+                            <Dot className="animate-spin mr-1 h-3 w-3" />
+                          )}
+                          Resend OTP
+                        </Button>
+                        <span
+                          className={cn("text-sm font-medium", {
+                            "text-red-500": timer > 0 && timer <= 30,
+                            "text-foreground": timer > 30 || timer === 0,
+                          })}
+                        >
+                          {timer > 0
+                            ? `${Math.floor(timer / 60)}:${(timer % 60)
+                                .toString()
+                                .padStart(2, "0")}`
+                            : ""}
+                        </span>
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -181,23 +215,55 @@ export default function VerifyPage() {
               </form>
             </Form>
           </CardContent>
-          <CardFooter className="flex justify-end">
-            <Button form="otp-form" type="submit">
-              Submit
+          <CardFooter className="flex justify-end gap-2 pt-2">
+            <Button
+              form="otp-form"
+              type="submit"
+              disabled={
+                isSubmitting ||
+                isVerifyingOtp ||
+                !form.watch("pin") ||
+                form.watch("pin").length !== 6
+              }
+              className="min-w-24"
+            >
+              {isSubmitting || isVerifyingOtp ? (
+                <>
+                  <Dot className="mr-2 h-4 w-4 animate-spin" />
+                  Verifying...
+                </>
+              ) : (
+                "Verify"
+              )}
             </Button>
           </CardFooter>
         </Card>
       ) : (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl">Verify your email address</CardTitle>
-            <CardDescription>
-              We will send you an OTP at <br /> {email}
+        <Card className="w-[500px] shadow-lg">
+          <CardHeader className="space-y-3">
+            <CardTitle className="text-2xl font-bold">
+              Verify your email
+            </CardTitle>
+            <CardDescription className="text-base">
+              We'll send a verification code to <br />
+              <span className="font-semibold text-foreground">{email}</span>
             </CardDescription>
           </CardHeader>
-          <CardFooter className="flex justify-end">
-            <Button onClick={handleSendOtp} className="w-[300px]">
-              Confirm
+          <CardFooter className="pt-2">
+            <Button
+              onClick={handleSendOtp}
+              disabled={isSendingOtp}
+              className="w-full"
+              size="lg"
+            >
+              {isSendingOtp ? (
+                <>
+                  <Dot className="mr-2 h-4 w-4 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                "Send OTP"
+              )}
             </Button>
           </CardFooter>
         </Card>

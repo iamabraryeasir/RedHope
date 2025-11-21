@@ -1,9 +1,7 @@
 import DonorCard from "@/components/modules/donors-page/DonorCard";
 import { Button } from "@/components/ui/button";
 import { useGetDonorsQuery } from "@/redux/features/donor/donor.api";
-import { Plus } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -43,15 +41,6 @@ export default function DonorsPage() {
         <div>
           <h1 className="font-semibold text-3xl">Find A Donor</h1>
           <p>Connect with available blood donors in your area</p>
-        </div>
-
-        <div>
-          <Link to="/signup">
-            <Button className="cursor-pointer  bg-gradient-to-br from-[#570C0C] via-[#932A2A] to-[#000000] rounded-3xl h-13 w-48 ">
-              <Plus />
-              Become a Donor
-            </Button>
-          </Link>
         </div>
       </div>
 

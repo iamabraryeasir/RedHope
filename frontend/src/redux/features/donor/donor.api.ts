@@ -23,7 +23,13 @@ export const donorApi = baseApi.injectEndpoints({
       }),
       providesTags: ["DONORS"],
     }),
+    getDonorContact: builder.query<IResponse<string>, string>({
+      query: (id) => ({
+        url: `/users/${id}/contact`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetDonorsQuery } = donorApi;
+export const { useGetDonorsQuery, useGetDonorContactQuery } = donorApi;

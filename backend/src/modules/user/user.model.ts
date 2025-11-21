@@ -42,7 +42,16 @@ const userSchema = new Schema<IUser>(
             required: true,
         },
         gender: { type: String, enum: Object.values(GENDER), required: true },
-        dateOfBirth: { type: Date, required: true },
+        dateOfBirth: {
+            type: Date,
+            required: true,
+            set: (value: string | Date) => {
+                if (typeof value === 'string') {
+                    return new Date(value);
+                }
+                return value;
+            },
+        },
         district: { type: String, required: true },
         city: { type: String, required: true },
         thana: { type: String },
@@ -69,6 +78,16 @@ const userSchema = new Schema<IUser>(
         versionKey: false,
     },
 );
+
+/**
+ * Pre-save middleware to ensure dateOfBirth is a Date
+ */
+userSchema.pre('save', function (next) {
+    if (this.dateOfBirth && typeof this.dateOfBirth === 'string') {
+        this.dateOfBirth = new Date(this.dateOfBirth) as any;
+    }
+    next();
+});
 
 /**
  * Model
