@@ -7,25 +7,25 @@ import TeamCard from "./TeamCard";
 const teamMembers = [
     {
         name: "Abrar Yasir",
-        linkedLink: "",
+        linkedLink: "https://www.linkedin.com/in/iamabraryeasir/",
         expertise: "Full Stack",
         image: teamImage1,
     },
     {
         name: "A. K. M. Nafiz Ibn Nasim",
-        linkedLink: "",
+        linkedLink: "https://www.linkedin.com/in/a-k-m-nafiz-ibn-nasim-3a1583320/",
         expertise: "Frontend",
         image: teamImage2,
     },
     {
         name: "Rudra Kaiser",
-        linkedLink: "",
+        linkedLink: "https://www.linkedin.com/in/rudrakaiser/",
         expertise: "Frontend",
         image: teamImage3,
     },
     {
         name: "Supta Bowl",
-        linkedLink: "",
+        linkedLink: "https://www.linkedin.com/in/supta-baul-3213a030b/",
         expertise: "UI/UX Designer",
         image: teamImage4,
     },
